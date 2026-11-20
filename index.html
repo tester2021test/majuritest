@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#172033"><meta name="description" content="Majuri Pro V2 offline interior work and payment manager">
-<title>Majuri Pro V4.0 · Project Workspace</title>
+<title>Majuri Pro V4.1 · Project Workspace</title>
 <style>
 :root{--bg:#eef2fa;--card:#fff;--ink:#18243b;--muted:#68758b;--line:#e1e7f2;--accent:#405cf5;--soft:#e9edff;--good:#07865f;--warn:#b66b08;--bad:#d33b50;--shadow:0 8px 26px #253b6812;--cyan:#0d9bb5;--purple:#8755d9;--orange:#ed8b32}
 [data-theme=dark]{--bg:#0d1422;--card:#172338;--ink:#f0f4ff;--muted:#a8b5ca;--line:#2a3a55;--accent:#91a5ff;--soft:#273656;--good:#55d6aa;--warn:#ffca75;--bad:#ff8795;--shadow:0 8px 26px #0004;--cyan:#4bc4db;--purple:#b18bff;--orange:#ffb36c}
@@ -300,6 +300,65 @@ body{
   .quick-tile{padding:9px 4px;font-size:10.5px;min-height:62px;border-radius:14px}
   .actions button,.actions .filebtn{flex:1 1 auto}
 }
+
+/* ==========================================================================
+   V4.1 Executive PDF Suite, SVG Visual Analytics & Mobile Bottom Sheets
+   ========================================================================== */
+.donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;padding:8px 0}
+.donut-svg{width:154px;height:154px;flex-shrink:0}
+.donut-legend{flex:1;min-width:190px;display:flex;flex-direction:column;gap:9px}
+.legend-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 11px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font-size:13px}
+.legend-swatch{width:11px;height:11px;border-radius:4px;display:inline-block;margin-right:7px;flex-shrink:0}
+
+/* Budget Health Meter */
+.budget-meter{margin-top:12px;padding:12px;border-radius:14px;background:var(--bg);border:1px solid var(--line)}
+.budget-track{height:11px;background:var(--line);border-radius:999px;overflow:hidden;margin:8px 0 5px}
+.budget-fill{height:100%;border-radius:999px;transition:width .35s ease,background .35s ease;background:var(--good)}
+.budget-fill.warn{background:var(--warn)}.budget-fill.bad{background:var(--bad)}
+
+/* Room Card Visual Cover */
+.room-cover{width:100%;height:96px;object-fit:cover;border-radius:12px;margin:6px 0 4px;border:1px solid var(--line);cursor:zoom-in}
+
+/* Mobile Slide-Up Bottom Sheet for Contractor Form & Document Preview */
+.sheet-backdrop{position:fixed;inset:0;z-index:105;background:rgba(10,16,32,.62);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;padding:0}
+.sheet-backdrop.show{display:flex}
+.sheet-panel{width:min(100%,860px);max-height:92vh;overflow:auto;background:var(--card);color:var(--ink);border-radius:24px 24px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -18px 50px rgba(0,0,0,.28);border-top:1px solid var(--line);animation:sheetUp .22s ease-out}
+@media(min-width:700px){
+  .sheet-backdrop{align-items:center;padding:20px}
+  .sheet-panel{border-radius:24px;max-height:88vh;border:1px solid var(--line)}
+}
+@keyframes sheetUp{from{transform:translateY(28px);opacity:.7}to{transform:translateY(0);opacity:1}}
+.sheet-handle{width:40px;height:4px;border-radius:999px;background:var(--line);margin:0 auto 12px}
+
+/* Executive A4 Document Preview Sheet */
+#docSheetBody{background:#fff;color:#141e30;border-radius:14px;padding:20px;border:1px solid #d9e0ec;margin:12px 0;font-size:13px;line-height:1.45}
+.exec-doc{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#141e30}
+.exec-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:2.5px solid #182c54;padding-bottom:14px;margin-bottom:16px;flex-wrap:wrap}
+.exec-badge{display:inline-block;padding:4px 10px;border-radius:6px;background:#182c54;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase}
+.exec-title{font-size:21px;font-weight:850;margin:6px 0 2px;color:#141e30;letter-spacing:-.4px}
+.exec-meta{font-size:12px;color:#4e5d78;line-height:1.5}
+.exec-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px;margin:14px 0 18px}
+.exec-kpi{background:#f4f7fc;border:1px solid #dce3f0;border-radius:10px;padding:10px 12px}
+.exec-kpi small{display:block;font-size:10px;font-weight:750;text-transform:uppercase;color:#5a6982;letter-spacing:.4px}
+.exec-kpi b{display:block;font-size:15px;font-weight:850;color:#141e30;margin-top:2px;font-variant-numeric:tabular-nums}
+.exec-sec-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#182c54;margin:18px 0 7px;border-left:3.5px solid #3157d5;padding-left:8px}
+.exec-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px}
+.exec-table th{background:#182c54;color:#fff;font-weight:750;text-transform:uppercase;font-size:10.5px;letter-spacing:.4px;padding:8px 9px;text-align:left;border:1px solid #182c54}
+.exec-table td{padding:8px 9px;border:1px solid #dde3ee;color:#1b263b;vertical-align:top}
+.exec-table tr:nth-child(even) td{background:#f8fafd}
+.exec-table .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.exec-words{background:#eef3ff;border:1px solid #cfdcff;border-radius:10px;padding:10px 13px;font-size:12px;color:#1c3263;margin:12px 0}
+.exec-voucher{border:2px solid #182c54;border-radius:14px;padding:18px;background:#fff}
+.exec-signs{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:34px;padding-top:10px}
+.exec-sign-box{border-top:1px dashed #7c8aa3;padding-top:6px;font-size:11.5px;color:#4e5d78}
+
+@media print{
+  @page{size:A4;margin:12mm}
+  body *{visibility:hidden!important}
+  #printMount,#printMount *{visibility:visible!important}
+  #printMount{position:fixed!important;inset:0!important;background:#fff!important;padding:0!important;margin:0!important;display:block!important}
+  .exec-table tr,.exec-kpi,.exec-voucher{break-inside:avoid}
+}
 </style></head>
 <body>
 <section id="loginPanel" aria-label="Majuri Pro secure sign in">
@@ -312,7 +371,7 @@ body{
  <div class="secure-note"><span>🔒</span><span>Private account access. Only the approved account can access its own project records.</span></div>
  <div class="creator">CREATED &amp; CRAFTED BY <strong>VIVEK NARKHEDE</strong></div>
 </section>
-<header><div><h1>MAJURI PRO <span class="pill">V4.0</span></h1><small id="projectSubtitle">Created &amp; Crafted by Vivek Narkhede</small></div><button class="secondary small" onclick="toggleTheme()" id="themeBtn">☾ Theme</button></header>
+<header><div><h1>MAJURI PRO <span class="pill">V4.1</span></h1><small id="projectSubtitle">Created &amp; Crafted by Vivek Narkhede</small></div><div class="row" style="gap:6px"><button class="secondary small" onclick="go('reports')" title="PDF & Reports">📄 PDF</button><button class="secondary small" onclick="toggleTheme()" id="themeBtn">☾ Theme</button></div></header>
 <div id="cloudBar"><div class="cloud-meta"><span class="cloud-email-wrap">Account: <b id="accountEmail">—</b></span><span><b id="cloudStatus">Not connected</b></span></div><div class="cloud-actions"><button class="secondary small" id="syncNowBtn" type="button">↻ Sync</button><button class="secondary small" id="logoutBtn" type="button">Sign out</button></div></div>
 <div class="wrap">
 <section id="home" class="page active">
@@ -393,7 +452,7 @@ body{
 </section>
 <section id="analytics" class="page">
 <div class="row between"><h2>My project accounts</h2><span class="pill">Personal renovation</span></div>
-<div class="card"><h3>Project budget</h3><label>My total approved budget (₹)</label><input id="projectBudget" type="number" min="0" step="1" placeholder="Enter your overall budget"><button onclick="saveBudget()">Save budget</button><p class="hint">Budget is a planning limit, not income or profit.</p></div>
+<div class="card"><h3>Project budget &amp; health</h3><label>My total approved budget (₹)</label><div class="row"><input id="projectBudget" type="number" min="0" step="1" placeholder="Enter your overall budget"><button onclick="saveBudget()">Save</button></div><div id="budgetHealthBox"></div><p class="hint">Budget is a planning limit, not income or profit.</p></div>
 <div class="grid">
 <div class="stat"><div class="hint">Work / majuri incurred</div><div class="big" id="aMajuri">₹0</div></div>
 <div class="stat"><div class="hint">Material & other expenses</div><div class="big" id="aExpenses">₹0</div></div>
@@ -405,7 +464,7 @@ body{
 <div class="stat"><div class="hint">Total cash spent</div><div class="big" id="aCashOut">₹0</div></div>
 <div class="stat"><div class="hint">Budget remaining / (over)</div><div class="big" id="aBudgetLeft">Not set</div></div>
 </div>
-<div class="card"><h3>Where has the money gone?</h3><div id="expenseCategoryChart"></div></div>
+<div class="card"><h3>Cost split: Majuri vs. Materials</h3><div id="costDonutChart"></div></div><div class="card"><h3>Where has the money gone?</h3><div id="expenseCategoryChart"></div></div>
 <div class="card"><h3>Monthly spending</h3><div id="cashflowChart"></div></div>
 <div class="card"><h3>Room-wise work cost</h3><div id="analyticsRoomChart"></div></div>
 <div class="card"><h3>Contractor-wise settlement</h3><div id="contractorAnalytics"></div></div>
@@ -421,12 +480,12 @@ body{
  <select id="expFilterCat" onchange="renderAnalytics()"><option value="">All categories</option><option>Material - Plywood</option><option>Material - Laminate / Sunmica</option><option>Material - Hardware</option><option>Material - Electrical</option><option>Material - Tiles / Stone</option><option>Material - Paint / Polish</option><option>Material - Other</option><option>Transport</option><option>Tools / Equipment</option><option>Outside Labour</option><option>Food / Refreshment</option><option>Repair / Rework</option><option>Other</option></select>
 </div>
 <div id="expenseList"></div></div>
-<div class="card"><h3>Reports & export</h3><div class="actions"><button onclick="exportFinancialCSV()">Complete project accounts CSV</button><button class="secondary" onclick="exportExpensesCSV()">Purchase & expense CSV</button><button class="secondary" onclick="exportPaymentsCSV()">Contractor payment CSV</button><button class="secondary" onclick="exportCSV()">Work measurement CSV</button><button class="secondary" onclick="printFinancialReport()">Print complete project report / PDF</button></div><p class="hint">The report separates cost incurred, amount paid and amount still payable. No customer income or business profit is assumed.</p></div>
+<div class="card"><h3>Reports & export</h3><div class="actions"><button onclick="exportFinancialCSV()">Complete project accounts CSV</button><button class="secondary" onclick="exportExpensesCSV()">Purchase & expense CSV</button><button class="secondary" onclick="exportPaymentsCSV()">Contractor payment CSV</button><button class="secondary" onclick="exportCSV()">Work measurement CSV</button><button class="secondary" onclick="printFinancialReport()">Print complete project report / PDF</button><button class="secondary" onclick="printExpenseLedger()">Print expense ledger PDF</button></div><p class="hint">The report separates cost incurred, amount paid and amount still payable. No customer income or business profit is assumed.</p></div>
 </section>
 <section id="more" class="page">
 <h2>Project, contractors & tools</h2>
 <div class="card"><h3>Single project setup</h3><label>Project / customer name</label><input id="projectName"><div class="grid"><div><label>Customer / owner</label><input id="projectCustomer"></div><div><label>Flat / site</label><input id="projectSite"></div></div><div class="grid"><div><label>Phone</label><input id="projectPhone"></div><div><label>Start date</label><input id="projectDate" type="date"></div></div><label>Project notes</label><textarea id="projectNotes"></textarea><button onclick="saveProject()">Save project details</button></div>
-<div class="card"><div class="row between"><h3>Contractors</h3><button onclick="newContractor()">＋ Add</button></div><div id="contractorList"></div><div id="contractorForm" class="hidden"><input type="hidden" id="cId"><label>Name</label><input id="cName"><div class="grid"><div><label>Phone</label><input id="cPhone"></div><div><label>Speciality</label><input id="cSkill" value="Carpenter"></div></div><label>Notes</label><textarea id="cNotes"></textarea><div class="actions"><button onclick="saveContractor()">Save contractor</button><button class="secondary" onclick="$('contractorForm').classList.add('hidden')">Cancel</button></div></div></div>
+<div class="card"><div class="row between"><h3>Contractors</h3><button onclick="newContractor()">＋ Add</button></div><div id="contractorList"></div><div id="contractorForm" class="sheet-backdrop" onclick="if(event.target===this)this.classList.remove('show')"><div class="sheet-panel"><div class="sheet-handle"></div><h3 id="cFormTitle">Contractor details</h3><input type="hidden" id="cId"><label>Name</label><input id="cName" placeholder="e.g. Rajesh Sharma"><div class="grid"><div><label>Phone</label><input id="cPhone" placeholder="10-digit mobile"></div><div><label>Speciality</label><input id="cSkill" value="Carpenter"></div></div><label>Notes</label><textarea id="cNotes" placeholder="Rate agreement, team size, etc."></textarea><div class="actions"><button onclick="saveContractor()">Save contractor</button><button class="secondary" onclick="$('contractorForm').classList.remove('show')">Cancel</button></div></div></div></div>
 <div class="card"><h3>Catalogue & rate master</h3><label>Add custom room</label><div class="row"><input id="newRoom" placeholder="Room name"><button onclick="addRoom()">Add</button></div><div id="roomMaster"></div><label>Add custom work type</label><div class="row"><input id="newType" placeholder="Work type"><button onclick="addType()">Add</button></div><div id="typeMaster"></div><label>Default rate (₹/sq.ft.) by work type</label><div id="rateMaster"></div><button class="secondary" onclick="saveRates()">Save rates</button></div>
 <div class="card"><h3>Appearance</h3><div class="switch"><input type="checkbox" id="darkToggle" onchange="setTheme(this.checked?'dark':'light')"><label for="darkToggle" style="margin:0">Dark mode</label></div><p class="hint">Theme can also be switched from the top-right button.</p></div>
 <div class="card"><h3>Quotation, final bill & receipts</h3><p class="hint">Print or save professional PDF documents from the Reports tab.</p><button onclick="go('reports')">Open reports & exports</button></div>
@@ -565,12 +624,12 @@ function renderDashboard(){let t=total(),p=paid(),done=state.works.filter(w=>w.s
 let activeStatusFilter='';
 function setStatusFilter(st){activeStatusFilter=st;document.querySelectorAll('#statusChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.st===st));renderRooms()}
 function fillSelects(){const allRooms=Array.from(new Set([...state.rooms,...state.works.map(w=>w.room).filter(Boolean)]));let curFilter=$('roomFilter')?.value||'',curWc=$('workContractorFilter')?.value||'',curDc=$('docContractor')?.value||'';let rooms=allRooms.map(x=>`<option>${esc(x)}</option>`).join(''),types=state.types.map(x=>`<option>${esc(x)}</option>`).join(''),cs='<option value="">Unassigned</option>'+state.contractors.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join(''),allCs='<option value="">All contractors</option>'+state.contractors.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');$('fRoom').innerHTML=state.rooms.map(x=>`<option>${esc(x)}</option>`).join('');$('roomFilter').innerHTML='<option value="">All rooms</option>'+rooms;$('roomFilter').value=curFilter;$('fType').innerHTML=types;$('fContractor').innerHTML=cs;$('payContractor').innerHTML=cs;$('payFilterContractor').innerHTML=allCs;if($('workContractorFilter')){$('workContractorFilter').innerHTML=allCs;$('workContractorFilter').value=curWc}if($('docContractor')){$('docContractor').innerHTML=allCs;$('docContractor').value=curDc}}
-function renderRooms(){fillSelects();const allRooms=Array.from(new Set([...state.rooms,...state.works.map(w=>w.room).filter(Boolean)]));let sums=allRooms.map(r=>({r,ws:state.works.filter(w=>w.room===r)}));$('roomCards').innerHTML=sums.map(x=>{let done=x.ws.filter(w=>w.status==='Completed').length,pct=x.ws.length?Math.round(done/x.ws.length*100):0;return `<div class="card room-card"><div class="row between"><b>${esc(x.r)} ${state.rooms.includes(x.r)?'':'<span class="pill">Archived</span>'}</b><span class="pill ${pct===100&&x.ws.length?'good':''}">${done}/${x.ws.length} done</span></div><div class="big" style="margin:8px 0">${money(x.ws.reduce((s,w)=>s+workAmount(w),0))}</div><div class="bar" style="margin:6px 0 8px;height:6px"><span style="width:${pct}%"></span></div><div class="row between"><span class="hint">${x.ws.length} item(s)</span><button class="secondary small" onclick="selectRoom('${esc(x.r)}')">Filter →</button></div></div>`}).join('');let r=$('roomFilter').value,wc=$('workContractorFilter')?.value||'',q=($('workSearch')?.value||'').trim().toLowerCase();let arr=state.works.filter(w=>(!r||w.room===r)&&(!wc||w.contractorId===wc)&&(!activeStatusFilter||w.status===activeStatusFilter)&&(!q||`${w.name} ${w.type} ${w.room} ${w.notes||''}`.toLowerCase().includes(q)));if($('workFilterCount'))$('workFilterCount').textContent=`${arr.length} of ${state.works.length}`;$('roomWorkList').innerHTML=arr.map(workCard).join('')||'<div class="empty">No matching work items. Adjust filters or tap + Add work.</div>'}
+function renderRooms(){fillSelects();const allRooms=Array.from(new Set([...state.rooms,...state.works.map(w=>w.room).filter(Boolean)]));let sums=allRooms.map(r=>({r,ws:state.works.filter(w=>w.room===r)}));$('roomCards').innerHTML=sums.map(x=>{let done=x.ws.filter(w=>w.status==='Completed').length,pct=x.ws.length?Math.round(done/x.ws.length*100):0;let cover=x.ws.slice().reverse().flatMap(w=>w.photos||[])[0];return `<div class="card room-card"><div class="row between"><b>${esc(x.r)} ${state.rooms.includes(x.r)?'':'<span class="pill">Archived</span>'}</b><span class="pill ${pct===100&&x.ws.length?'good':''}">${done}/${x.ws.length} done</span></div>${cover?`<img class="room-cover thumb" src="${cover}" alt="${esc(x.r)}" title="Tap to enlarge">`:''}<div class="big" style="margin:8px 0">${money(x.ws.reduce((s,w)=>s+workAmount(w),0))}</div><div class="bar" style="margin:6px 0 8px;height:6px"><span style="width:${pct}%"></span></div><div class="row between"><span class="hint">${x.ws.length} item(s)</span><div class="row" style="gap:5px">${state.rooms.includes(x.r)?`<button class="secondary small" title="Add work to ${esc(x.r)}" onclick="openWork('${esc(x.r)}')">＋</button>`:''}<button class="secondary small" onclick="selectRoom('${esc(x.r)}')">View →</button></div></div></div>`}).join('');let r=$('roomFilter').value,wc=$('workContractorFilter')?.value||'',q=($('workSearch')?.value||'').trim().toLowerCase();let arr=state.works.filter(w=>(!r||w.room===r)&&(!wc||w.contractorId===wc)&&(!activeStatusFilter||w.status===activeStatusFilter)&&(!q||`${w.name} ${w.type} ${w.room} ${w.notes||''}`.toLowerCase().includes(q)));if($('workFilterCount'))$('workFilterCount').textContent=`${arr.length} of ${state.works.length}`;$('roomWorkList').innerHTML=arr.map(workCard).join('')||'<div class="empty">No matching work items. Adjust filters or tap + Add work.</div>'}
 function selectRoom(r){$('roomFilter').value=r;renderRooms();$('roomWorkList').scrollIntoView({behavior:'smooth'})}
 async function cycleWorkStatus(id){const order=['Planned','In progress','Completed'],w=state.works.find(x=>x.id===id);if(!w)return;const next=order[(order.indexOf(w.status||'Planned')+1)%order.length];w.status=next;snap('Work status updated',`${w.name}: ${next}`);renderAll();await persist();showToast(`${w.name} → ${next}`)}
 async function duplicateWork(id){const orig=state.works.find(x=>x.id===id);if(!orig)return;const copy=structuredClone(orig);copy.id=uid();copy.name=orig.name+' (Copy)';copy.status='Planned';copy.measurements=(copy.measurements||[]).map(m=>({...m,id:uid()}));state.works.push(copy);snap('Work item duplicated',copy.name);renderAll();await persist();showToast('Work item duplicated')}
 function workCard(w){const badgeColor=w.status==='Completed'?'good':(w.status==='In progress'?'warn':'');const cName=state.contractors.find(c=>c.id===w.contractorId)?.name||'Unassigned';return `<div class="work-item-card"><div class="row between" style="align-items:flex-start"><div><button type="button" class="pill status-btn ${badgeColor}" title="Tap to change status" onclick="cycleWorkStatus('${w.id}')">${esc(w.status)} ↻</button><h3 style="margin:7px 0 2px">${esc(w.name||w.type)}</h3><div class="hint">${esc(w.room)} · ${esc(w.type)}</div></div><div style="text-align:right"><div class="big good" style="font-size:18px">${money(workAmount(w))}</div><div class="hint">${money(w.rate)}/sq.ft.</div></div></div><div class="work-meta-tags"><span class="tag-mini">📐 ${fmtArea(calcArea(w))} × ${w.qty}</span><span class="tag-mini">👷 ${esc(cName)}</span></div>${w.notes?`<div class="work-notes-box">${esc(w.notes)}</div>`:''}${w.photos?.length?`<div class="photo-grid" style="margin-top:9px">${w.photos.map(src=>`<img src="${src}" title="Tap to enlarge">`).join('')}</div>`:''}<div class="actions" style="margin-top:10px;justify-content:flex-end"><button class="secondary small" onclick="duplicateWork('${w.id}')">⧉ Duplicate</button><button class="secondary small" onclick="editWork('${w.id}')">✎ Edit</button><button class="danger small" onclick="removeWork('${w.id}')">Delete</button></div></div>`}
-function openWork(){resetWork();go('calc')}
+function openWork(roomPrefill=''){resetWork();if(roomPrefill&&state.rooms.includes(roomPrefill))$('fRoom').value=roomPrefill;go('calc')}
 function resetWork(){ $('editWorkId').value='';$('fName').value='';$('fRate').value='';$('fQty').value=1;$('fDeduct').value=0;$('fOverride').value='';$('fNotes').value='';$('fPhotos').value='';$('existingPhotos').innerHTML='';$('quickWidth').value='';$('quickHeight').value='';$('advancedMode').checked=false;$('advancedDetails').open=false;$('fStatus').value='Planned';$('fContractor').value='';$('fRate').value=state.rates[$('fType').value]??'';$('measureRows').innerHTML='';addMeasure();recalc()}
 function addMeasure(m={}){let id=uid(),d=document.createElement('div');d.className='measure-row';d.dataset.mid=m.id||id;d.innerHTML=`<div><label>Width</label><input class="mw" type="number" min="0" step=".01" placeholder="0" value="${m.width??''}" oninput="recalc()"><select class="mwu"><option value="ft" ${m.widthUnit!=='in'?'selected':''}>Feet</option><option value="in" ${m.widthUnit==='in'?'selected':''}>Inches</option></select></div><div><label>Height</label><input class="mh" type="number" min="0" step=".01" placeholder="0" value="${m.height??''}" oninput="recalc()"><select class="mhu"><option value="ft" ${m.heightUnit!=='in'?'selected':''}>Feet</option><option value="in" ${m.heightUnit==='in'?'selected':''}>Inches</option></select></div><div><label>Rate override</label><input class="mr" type="number" min="0" step=".01" placeholder="Common" value="${m.rate??''}" oninput="recalc()"><span class="hint">₹/sq.ft.</span></div><button class="danger small" onclick="this.parentElement.remove();recalc()">×</button>`;$('measureRows').appendChild(d);recalc()}
 function toggleAdvanced(){let on=$('advancedMode').checked;$('advancedDetails').open=on;if(on&&document.querySelectorAll('.measure-row').length===0)addMeasure();recalc()}
@@ -587,11 +646,13 @@ async function savePayment(){let id=$('payId').value||uid(),old=state.payments.f
 function editPayment(id){let p=state.payments.find(x=>x.id===id);if(!p)return;$('payId').value=id;$('paymentFormTitle').textContent='Edit payment';$('payDate').value=p.date||today();$('payContractor').value=p.contractorId||'';$('payType').value=p.type;$('payAmount').value=p.amount;$('payMode').value=p.mode||'Cash';$('payRef').value=p.ref||'';$('payDesc').value=p.desc||'';$('payNotes').value=p.notes||'';$('payPhoto').value='';$('deletePayBtn').style.display='inline-flex';$('paymentForm').scrollIntoView({behavior:'smooth'})}
 async function deletePayment(){let id=$('payId').value;if(!id)return;let p=state.payments.find(x=>x.id===id);if(!await confirmAction('Delete payment?',`Delete ${p?.desc||p?.type||'this payment'} · ${money(p?.amount)}? It will be recorded in revision history.`))return;snap('Payment deleted',`${p?.desc||p?.type} · ${money(p?.amount)}`);state.payments=state.payments.filter(x=>x.id!==id);newPayment();renderAll();await persist();showToast('Payment deleted · Screen updated')}
 function renderPayments(){fillSelects();let t=total(),p=paid();$('pWorkTotal').textContent=money(t);$('pPaidTotal').textContent=money(contractorCashPaid());$('pBalance').textContent=money(contractorDue());let c=$('payFilterContractor').value,ty=$('payFilterType').value,arr=state.payments.filter(x=>(!c||x.contractorId===c)&&(!ty||x.type===ty));$('paymentList').innerHTML=arr.slice().reverse().map(x=>`<div class="card"><div class="row between"><div><span class="pill">${esc(x.type)}</span><h3 style="margin:6px 0">${esc(x.desc||x.type)}</h3><div class="hint">${esc(x.date)} · ${esc(state.contractors.find(c=>c.id===x.contractorId)?.name||'Unassigned')} · ${esc(x.mode)}</div><b class="${['Refund','Deduction'].includes(x.type)?'bad':'good'}">${['Refund','Deduction'].includes(x.type)?'−':''}${money(x.amount)}</b><div class="hint">${esc(x.ref)} ${esc(x.notes)}</div></div><button class="secondary small" onclick="editPayment('${x.id}')">✎ Edit</button></div>${x.photo?`<img class="thumb" src="${x.photo}">`:''}</div>`).join('')||'<div class="empty">No transactions match this filter.</div>';let rs=$('receiptSelect');if(rs)rs.innerHTML=state.payments.map(x=>`<option value="${x.id}">${esc(x.date)} · ${esc(x.desc||x.type)} · ${money(x.amount)}</option>`).join('')}
-function newContractor(){$('contractorForm').classList.remove('hidden');['cId','cName','cPhone','cNotes'].forEach(x=>$(x).value='');$('cSkill').value='Carpenter'}
-function saveContractor(){let id=$('cId').value||uid(),c={id,name:$('cName').value.trim(),phone:$('cPhone').value,skill:$('cSkill').value,notes:$('cNotes').value};if(!c.name){alert('Enter contractor name.');return}let ix=state.contractors.findIndex(x=>x.id===id);snap(ix<0?'Contractor added':'Contractor edited',c.name);if(ix<0)state.contractors.push(c);else state.contractors[ix]=c;persist().then(()=>{renderAll();$('contractorForm').classList.add('hidden')})}
-function editContractor(id){let c=state.contractors.find(x=>x.id===id);$('contractorForm').classList.remove('hidden');$('cId').value=id;$('cName').value=c.name;$('cPhone').value=c.phone||'';$('cSkill').value=c.skill||'';$('cNotes').value=c.notes||''}
+function newContractor(){$('cFormTitle').textContent='Add contractor';$('contractorForm').classList.add('show');['cId','cName','cPhone','cNotes'].forEach(x=>$(x).value='');$('cSkill').value='Carpenter'}
+function saveContractor(){let id=$('cId').value||uid(),c={id,name:$('cName').value.trim(),phone:$('cPhone').value,skill:$('cSkill').value,notes:$('cNotes').value};if(!c.name){showToast('Enter contractor name');return}let ix=state.contractors.findIndex(x=>x.id===id);snap(ix<0?'Contractor added':'Contractor edited',c.name);if(ix<0)state.contractors.push(c);else state.contractors[ix]=c;persist().then(()=>{renderAll();$('contractorForm').classList.remove('show');showToast('Contractor saved')})}
+function editContractor(id){let c=state.contractors.find(x=>x.id===id);$('cFormTitle').textContent='Edit contractor';$('contractorForm').classList.add('show');$('cId').value=id;$('cName').value=c.name;$('cPhone').value=c.phone||'';$('cSkill').value=c.skill||'';$('cNotes').value=c.notes||''}
+function settleContractor(id,amt){go('payments');newPayment();$('payContractor').value=id;if(amt>0){$('payType').value='Final';$('payAmount').value=amt.toFixed(2);$('payDesc').value='Balance settlement'}}
+function markExpensePaid(id){let e=state.expenses.find(x=>x.id===id);if(!e)return;e.paidAmount=+e.amount||0;snap('Expense marked paid',`${e.desc||e.category} · ${money(e.amount)}`);persist().then(()=>{renderAll();showToast('Marked as fully paid')})}
 async function removeContractor(id){const c=state.contractors.find(x=>x.id===id);if(!c)return;const lw=state.works.filter(w=>w.contractorId===id).length,lp=state.payments.filter(p=>p.contractorId===id).length;const msg=(lw||lp)?`Delete “${c.name}”? Their ${lw} work item(s) and ${lp} payment(s) will be kept as “Unassigned”.`:`Delete contractor “${c.name}”?`;if(!await confirmAction('Delete contractor?',msg))return;state.works.forEach(w=>{if(w.contractorId===id)w.contractorId=''});state.payments.forEach(p=>{if(p.contractorId===id)p.contractorId=''});state.contractors=state.contractors.filter(x=>x.id!==id);snap('Contractor deleted',c.name);renderAll();await persist();showToast('Contractor deleted · Linked records preserved')}
-function renderMore(){let p=state.project;[['projectName','name'],['projectCustomer','customer'],['projectSite','site'],['projectPhone','phone'],['projectDate','date'],['projectNotes','notes']].forEach(([a,b])=>$(a).value=p[b]||'');$('contractorList').innerHTML=state.contractors.map(c=>{let assigned=state.works.filter(w=>w.contractorId===c.id).reduce((s,w)=>s+workAmount(w),0),payments=state.payments.filter(x=>x.contractorId===c.id).reduce((s,x)=>s+paymentNet(x),0);return `<div class="item"><div class="row between"><div><b>${esc(c.name)}</b><div class="hint">${esc(c.skill)} · ${esc(c.phone)}</div><div class="hint">Assigned work ${money(assigned)} · Paid ${money(payments)} · Balance ${money(assigned-payments)}</div></div><div class="actions"><button class="secondary small" onclick="editContractor('${c.id}')">Edit</button><button class="danger small" onclick="removeContractor('${c.id}')">×</button></div></div></div>`}).join('')||'<div class="empty">No contractors yet.</div>';$('roomMaster').innerHTML=state.rooms.map((r,i)=>`<div class="row between item">${esc(r)}<button class="danger small" onclick="removeRoom(${i})">Remove</button></div>`).join('');$('typeMaster').innerHTML=state.types.map((r,i)=>`<div class="row between item">${esc(r)}<button class="danger small" onclick="removeType(${i})">Remove</button></div>`).join('');$('rateMaster').innerHTML=state.types.map(t=>`<div class="grid item"><div style="align-self:center">${esc(t)}</div><input type="number" min="0" step=".01" data-rate="${esc(t)}" placeholder="₹ / sq.ft." value="${state.rates[t]??''}"></div>`).join('')}
+function renderMore(){let p=state.project;[['projectName','name'],['projectCustomer','customer'],['projectSite','site'],['projectPhone','phone'],['projectDate','date'],['projectNotes','notes']].forEach(([a,b])=>$(a).value=p[b]||'');$('contractorList').innerHTML=state.contractors.map(c=>{let assigned=state.works.filter(w=>w.contractorId===c.id).reduce((s,w)=>s+workAmount(w),0),payments=state.payments.filter(x=>x.contractorId===c.id).reduce((s,x)=>s+paymentNet(x),0);return `<div class="item"><div class="row between"><div><b>${esc(c.name)}</b><div class="hint">${esc(c.skill)} · ${esc(c.phone)}</div><div class="hint">Assigned ${money(assigned)} · Paid ${money(payments)} · Bal ${money(assigned-payments)}</div></div><div class="actions"><button class="secondary small" onclick="printContractorStatement('${c.id}')">📄 PDF</button><button class="secondary small" onclick="editContractor('${c.id}')">Edit</button><button class="danger small" onclick="removeContractor('${c.id}')">×</button></div></div></div>`}).join('')||'<div class="empty">No contractors yet.</div>';$('roomMaster').innerHTML=state.rooms.map((r,i)=>`<div class="row between item">${esc(r)}<button class="danger small" onclick="removeRoom(${i})">Remove</button></div>`).join('');$('typeMaster').innerHTML=state.types.map((r,i)=>`<div class="row between item">${esc(r)}<button class="danger small" onclick="removeType(${i})">Remove</button></div>`).join('');$('rateMaster').innerHTML=state.types.map(t=>`<div class="grid item"><div style="align-self:center">${esc(t)}</div><input type="number" min="0" step=".01" data-rate="${esc(t)}" placeholder="₹ / sq.ft." value="${state.rates[t]??''}"></div>`).join('')}
 function saveProject(){state.project={name:$('projectName').value||'My Interior Project',customer:$('projectCustomer').value,site:$('projectSite').value,phone:$('projectPhone').value,date:$('projectDate').value,notes:$('projectNotes').value};snap('Project details updated',state.project.name);persist().then(()=>{renderAll();showToast('Project details saved')})}
 function addRoom(){let v=$('newRoom').value.trim();if(v&&!state.rooms.includes(v)){state.rooms.push(v);snap('Room added',v);persist().then(renderAll)}$('newRoom').value=''}
 function addType(){let v=$('newType').value.trim();if(v&&!state.types.includes(v)){state.types.push(v);snap('Work type added',v);persist().then(renderAll)}$('newType').value=''}
@@ -614,41 +675,275 @@ function renderAnalytics(){
  set('aMajuri',completedWorkTotal());set('aExpenses',exp);set('aProjectCost',cost);set('aContractorPaid',paidMajuri);set('aContractorDue',dueMajuri);set('aExpensePaid',expP);set('aExpenseDue',expD);set('aCashOut',cash);
  if($('projectBudget'))$('projectBudget').value=budget||'';
  if($('aBudgetLeft'))$('aBudgetLeft').textContent=budget?money(budget-cost)+(budget>=cost?' remaining':' over budget'):'Not set';
+ if($('budgetHealthBox')){
+  if(!budget){$('budgetHealthBox').innerHTML='';}
+  else{
+   const pct=Math.round((cost/budget)*100),cls=pct>100?'bad':(pct>=85?'warn':'');
+   $('budgetHealthBox').innerHTML=`<div class="budget-meter"><div class="row between"><b>Budget used: ${pct}%</b><span class="hint">${money(cost)} of ${money(budget)}</span></div><div class="budget-track"><div class="budget-fill ${cls}" style="width:${Math.min(100,pct)}%"></div></div><div class="hint">${budget>=cost?`${money(budget-cost)} safe cushion remaining`:`${money(cost-budget)} over approved budget`}</div></div>`;
+  }
+ }
+ if($('costDonutChart')){
+  const maj=completedWorkTotal(),mat=exp,totC=maj+mat;
+  if(totC<=0){$('costDonutChart').innerHTML='<div class="empty">Complete work items or add purchases to see cost split.</div>';}
+  else{
+   const pMaj=Math.round(maj/totC*100),pMat=100-pMaj,r=54,circ=2*Math.PI*r,dashMaj=(maj/totC)*circ;
+   $('costDonutChart').innerHTML=`<div class="donut-wrap"><svg class="donut-svg" viewBox="0 0 140 140"><circle cx="70" cy="70" r="${r}" fill="none" stroke="var(--orange)" stroke-width="20"/><circle cx="70" cy="70" r="${r}" fill="none" stroke="var(--accent)" stroke-width="20" stroke-dasharray="${dashMaj.toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90 70 70)"/><text x="70" y="66" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="800">${pMaj}% / ${pMat}%</text><text x="70" y="82" text-anchor="middle" fill="var(--muted)" font-size="9.5" font-weight="700">MAJURI / MAT</text></svg><div class="donut-legend"><div class="legend-row"><span><i class="legend-swatch" style="background:var(--accent)"></i>Labour / Majuri (${pMaj}%)</span><b>${money(maj)}</b></div><div class="legend-row"><span><i class="legend-swatch" style="background:var(--orange)"></i>Materials &amp; Bills (${pMat}%)</span><b>${money(mat)}</b></div><div class="legend-row" style="background:var(--soft)"><span>Total Incurred Cost</span><b>${money(totC)}</b></div></div></div>`;
+  }
+ }
  let cats={};state.expenses.forEach(e=>cats[e.category]=(cats[e.category]||0)+(+e.amount||0));let cr=Object.entries(cats).sort((a,b)=>b[1]-a[1]),mx=Math.max(1,...cr.map(x=>x[1]));$('expenseCategoryChart').innerHTML=cr.map(x=>`<div class="item"><div class="row between"><b>${esc(x[0])}</b><b>${money(x[1])}</b></div><div class="chartbar"><span style="width:${x[1]/mx*100}%"></span></div><div class="hint">${money(state.expenses.filter(e=>e.category===x[0]).reduce((a,e)=>a+(+(e.paidAmount??e.amount)||0),0))} paid</div></div>`).join('')||'<div class="empty">No purchases recorded yet.</div>';
  let months={};function add(date,key,amt){let m=(date||'').slice(0,7)||'Undated';months[m]??={labour:0,expense:0};months[m][key]+=amt}
  state.payments.forEach(p=>{if(p.type!=='Deduction')add(p.date,'labour',Math.max(0,paymentNet(p)))});state.expenses.forEach(e=>add(e.date,'expense',+(e.paidAmount??e.amount)||0));let ms=Object.keys(months).sort().slice(-12),max=Math.max(1,...ms.flatMap(m=>[months[m].labour,months[m].expense]));$('cashflowChart').innerHTML=ms.map(m=>`<div class="item"><div class="row between"><b>${esc(m)}</b><b>${money(months[m].labour+months[m].expense)}</b></div><div class="hint">Majuri ${money(months[m].labour)} · Purchases / other ${money(months[m].expense)}</div><div style="display:flex;gap:3px;margin-top:7px;height:12px"><span style="width:${months[m].labour/max*100}%;background:#315efb;border-radius:6px"></span><span style="width:${months[m].expense/max*100}%;background:#e0a13a;border-radius:6px"></span></div></div>`).join('')||'<div class="empty">Record payments and purchases to see monthly spending.</div>';
  let rooms=state.rooms.map(r=>({name:r,value:state.works.filter(w=>w.room===r).reduce((a,w)=>a+workAmount(w),0)})).filter(x=>x.value>0).sort((a,b)=>b.value-a.value),mr=Math.max(1,...rooms.map(x=>x.value));$('analyticsRoomChart').innerHTML=rooms.map(x=>`<div class="item"><div class="row between"><b>${esc(x.name)}</b><b>${money(x.value)}</b></div><div class="chartbar"><span style="width:${x.value/mr*100}%"></span></div></div>`).join('')||'<div class="empty">Add measured work to see room-wise cost.</div>';
- $('contractorAnalytics').innerHTML=state.contractors.map(c=>{let earned=state.works.filter(w=>w.contractorId===c.id&&w.status==='Completed').reduce((a,w)=>a+workAmount(w),0),recorded=state.works.filter(w=>w.contractorId===c.id).reduce((a,w)=>a+workAmount(w),0),settled=state.payments.filter(p=>p.contractorId===c.id).reduce((a,p)=>a+paymentNet(p),0),cashPaid=state.payments.filter(p=>p.contractorId===c.id&&p.type!=='Deduction').reduce((a,p)=>a+paymentNet(p),0),bal=earned-settled,lbl=bal>0?`<b class="warn">${money(bal)} payable</b>`:bal<0?`<b class="good">${money(Math.abs(bal))} advance</b>`:`<b class="muted">Settled (₹0)</b>`;return `<div class="item"><div class="row between"><b>${esc(c.name)}</b>${lbl}</div><div class="hint">Completed ${money(earned)} · All recorded ${money(recorded)} · Cash paid ${money(cashPaid)} · Adjustments ${money(settled-cashPaid)}</div><div class="chartbar"><span style="width:${earned?Math.min(100,Math.max(0,settled)/earned*100):(settled>0?100:0)}%"></span></div></div>`}).join('')||'<div class="empty">Add contractors and assign work.</div>';
+ $('contractorAnalytics').innerHTML=state.contractors.map(c=>{let earned=state.works.filter(w=>w.contractorId===c.id&&w.status==='Completed').reduce((a,w)=>a+workAmount(w),0),recorded=state.works.filter(w=>w.contractorId===c.id).reduce((a,w)=>a+workAmount(w),0),settled=state.payments.filter(p=>p.contractorId===c.id).reduce((a,p)=>a+paymentNet(p),0),cashPaid=state.payments.filter(p=>p.contractorId===c.id&&p.type!=='Deduction').reduce((a,p)=>a+paymentNet(p),0),bal=earned-settled,lbl=bal>0?`<b class="warn">${money(bal)} payable</b>`:bal<0?`<b class="good">${money(Math.abs(bal))} advance</b>`:`<b class="muted">Settled (₹0)</b>`;return `<div class="work-item-card"><div class="row between"><b>${esc(c.name)}</b>${lbl}</div><div class="hint" style="margin:4px 0 8px">Completed ${money(earned)} · Recorded ${money(recorded)} · Cash paid ${money(cashPaid)} · Deducted ${money(settled-cashPaid)}</div><div class="chartbar"><span style="width:${earned?Math.min(100,Math.max(0,settled)/earned*100):(settled>0?100:0)}%"></span></div><div class="actions" style="margin-top:9px;justify-content:flex-end"><button class="secondary small" onclick="printContractorStatement('${c.id}')">📄 Statement PDF</button>${bal>0?`<button class="small" onclick="settleContractor('${c.id}',${bal})">₹ Settle ${money(bal)}</button>`:''}</div></div>`}).join('')||'<div class="empty">Add contractors and assign work.</div>';
  const eq=($('expSearch')?.value||'').trim().toLowerCase(),ec=$('expFilterCat')?.value||'';
 const filteredExp=state.expenses.filter(e=>(!ec||e.category===ec)&&(!eq||`${e.category} ${e.vendor} ${e.desc} ${e.billRef} ${e.notes}`.toLowerCase().includes(eq)));
 if($('expFilteredSum'))$('expFilteredSum').textContent=`${filteredExp.length} item(s) · ${money(expenseTotal(filteredExp))}`;
-$('expenseList').innerHTML=filteredExp.slice().reverse().map(e=>{const bal=Math.max(0,(+e.amount||0)-(+((e.paidAmount??e.amount))||0));return `<div class="work-item-card"><div class="row between" style="align-items:flex-start"><div><span class="pill">${esc(e.category)}</span><h3 style="margin:6px 0 2px">${esc(e.desc||e.category)}</h3><div class="hint">${esc(e.date)} ${e.vendor?'· '+esc(e.vendor):''} · ${esc(e.mode)}</div></div><div style="text-align:right"><div class="big" style="font-size:17px">${money(e.amount)}</div>${bal>0?`<span class="pill warn">Unpaid ${money(bal)}</span>`:`<span class="pill good">Paid</span>`}</div></div>${e.billRef||e.notes?`<div class="hint" style="margin-top:6px">${e.billRef?'Ref: '+esc(e.billRef)+' · ':''}${esc(e.notes)}</div>`:''}<div class="actions" style="margin-top:9px;justify-content:flex-end"><button class="secondary small" onclick="editExpense('${e.id}')">✎ Edit</button><button class="danger small" onclick="deleteExpense('${e.id}')">Delete</button></div></div>`}).join('')||'<div class="empty">No matching purchases or expenses found.</div>';
+$('expenseList').innerHTML=filteredExp.slice().reverse().map(e=>{const bal=Math.max(0,(+e.amount||0)-(+((e.paidAmount??e.amount))||0));return `<div class="work-item-card"><div class="row between" style="align-items:flex-start"><div><span class="pill">${esc(e.category)}</span><h3 style="margin:6px 0 2px">${esc(e.desc||e.category)}</h3><div class="hint">${esc(e.date)} ${e.vendor?'· '+esc(e.vendor):''} · ${esc(e.mode)}</div></div><div style="text-align:right"><div class="big" style="font-size:17px">${money(e.amount)}</div>${bal>0?`<span class="pill warn">Unpaid ${money(bal)}</span>`:`<span class="pill good">Paid</span>`}</div></div>${e.billRef||e.notes?`<div class="hint" style="margin-top:6px">${e.billRef?'Ref: '+esc(e.billRef)+' · ':''}${esc(e.notes)}</div>`:''}<div class="actions" style="margin-top:9px;justify-content:flex-end">${bal>0?`<button class="small" onclick="markExpensePaid('${e.id}')">✓ Mark Paid</button>`:''}<button class="secondary small" onclick="editExpense('${e.id}')">✎ Edit</button><button class="danger small" onclick="deleteExpense('${e.id}')">Delete</button></div></div>`}).join('')||'<div class="empty">No matching purchases or expenses found.</div>';
+}
+
+function amountInWordsINR(num){
+ num=Math.round(Math.abs(Number(num)||0));
+ if(num===0)return 'Rupees Zero Only';
+ const a=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+ const b=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eightyg','Ninety'];
+ const two=n=>n<20?a[n]:(b[Math.floor(n/10)]+(n%10?' '+a[n%10]:'')).replace('Eightyg','Eighty');
+ const three=n=>n>=100?a[Math.floor(n/100)]+' Hundred'+(n%100?' '+two(n%100):''):two(n);
+ let out='';
+ const cr=Math.floor(num/10000000);num%=10000000;
+ const lk=Math.floor(num/100000);num%=100000;
+ const th=Math.floor(num/1000);num%=1000;
+ if(cr)out+=three(cr)+' Crore ';
+ if(lk)out+=two(lk)+' Lakh ';
+ if(th)out+=two(th)+' Thousand ';
+ if(num)out+=three(num);
+ return 'Rupees '+out.trim()+' Only';
+}
+
+function execDocHeader(badge,title,subLine,docNo=''){
+ const p=state.project;
+ return `<div class="exec-head">
+  <div>
+   <span class="exec-badge">${esc(badge)}</span>
+   <div class="exec-title">${esc(title)}</div>
+   <div class="exec-meta">${subLine}</div>
+  </div>
+  <div class="exec-meta" style="text-align:right">
+   <b>${esc(p.name||'My Interior Project')}</b><br>
+   ${p.site?esc(p.site)+'<br>':''}
+   ${p.customer?'Owner: '+esc(p.customer)+'<br>':''}
+   ${p.phone?'Ph: '+esc(p.phone)+'<br>':''}
+   ${docNo?'Doc #: <b>'+esc(docNo)+'</b> · ':''}Date: <b>${esc($('docDate')?.value||today())}</b>
+  </div>
+ </div>`;
+}
+
+let activeShareSummary='';
+function openDocSheet(title,docHtml,shareText=''){
+ activeShareSummary=shareText||title;
+ $('docSheetTitle').textContent=title;
+ $('docSheetBody').innerHTML=docHtml;
+ $('printMount').innerHTML=docHtml;
+ $('docSheet').classList.add('show');
+}
+function closeDocSheet(){$('docSheet').classList.remove('show')}
+function triggerDirectPrint(){
+ window.print();
+}
+async function shareDocSummary(){
+ if(navigator.share){
+  try{await navigator.share({title:$('docSheetTitle').textContent,text:activeShareSummary});return}catch{}
+ }
+ try{await navigator.clipboard.writeText(activeShareSummary);showToast('Summary copied to clipboard — paste in WhatsApp')}
+ catch{showToast('Use Print / Save PDF above to export')}
 }
 
 function exportFinancialCSV(){let rows=[['Project account summary','Amount (INR)'],['Completed work / majuri incurred',completedWorkTotal()],['All work value recorded (including planned / in progress)',total()],['Material and other expenses incurred',expenseTotal()],['Total project cost incurred (completed work + all recorded expenses)',projectCost()],['Contractor cash paid',contractorCashPaid()],['Contractor balance (positive payable, negative advance)',contractorDue()],['Expense amount paid',expensePaid()],['Expense amount unpaid',expenseDue()],['Total cash outflow',totalCashOut()],['Project budget',state.budget||0],['Budget remaining / (over)',(+state.budget||0)-projectCost()]];download('\ufeff'+rows.map(r=>r.map(csv).join(',')).join('\r\n'),'majuri-pro-project-accounts.csv','text/csv;charset=utf-8')}
 function exportExpensesCSV(){let rows=[['Date','Category','Total bill','Paid','Unpaid','Vendor','Description','Mode','Bill reference','Notes'],...state.expenses.map(e=>[e.date,e.category,e.amount,e.paidAmount??e.amount,Math.max(0,(+e.amount||0)-(+((e.paidAmount??e.amount))||0)),e.vendor,e.desc,e.mode,e.billRef,e.notes])];download('\ufeff'+rows.map(r=>r.map(csv).join(',')).join('\r\n'),'majuri-pro-purchases-expenses.csv','text/csv;charset=utf-8')}
-function printFinancialReport(){let html=`<h1>Home Interior Project — Complete Account Statement</h1><p>${esc(state.project.name)} · ${esc(state.project.site)} · Generated ${today()}</p><h2>Project summary</h2><table><tr><td>Completed work / majuri incurred</td><td>${money(completedWorkTotal())}</td></tr><tr><td>All work value recorded (including planned / in progress)</td><td>${money(total())}</td></tr><tr><td>Material and other expenses</td><td>${money(expenseTotal())}</td></tr><tr><th>Total project cost incurred</th><th>${money(projectCost())}</th></tr><tr><td>Contractor cash paid</td><td>${money(contractorCashPaid())}</td></tr><tr><td>Contractor balance (positive = payable, negative = advance)</td><td>${money(contractorDue())}</td></tr><tr><td>Expense amount paid</td><td>${money(expensePaid())}</td></tr><tr><td>Expense amount unpaid</td><td>${money(expenseDue())}</td></tr><tr><th>Total cash spent</th><th>${money(totalCashOut())}</th></tr><tr><td>Project budget</td><td>${money(state.budget||0)}</td></tr><tr><td>Budget remaining / (over)</td><td>${money((+state.budget||0)-projectCost())}</td></tr></table><h2>Room-wise work</h2><table><tr><th>Room</th><th>Work item</th><th>Contractor</th><th>Amount</th><th>Status</th></tr>${state.works.map(w=>`<tr><td>${esc(w.room)}</td><td>${esc(w.name)}</td><td>${esc(state.contractors.find(c=>c.id===w.contractorId)?.name||'')}</td><td>${money(workAmount(w))}</td><td>${esc(w.status)}</td></tr>`).join('')}</table><h2>Contractor payments</h2><table><tr><th>Date</th><th>Contractor</th><th>Type</th><th>Mode</th><th>Amount</th><th>Description</th></tr>${state.payments.map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(state.contractors.find(c=>c.id===p.contractorId)?.name||'')}</td><td>${esc(p.type)}</td><td>${esc(p.mode)}</td><td>${money(p.amount)}</td><td>${esc(p.desc)}</td></tr>`).join('')}</table><h2>Purchases and expenses</h2><table><tr><th>Date</th><th>Category</th><th>Vendor</th><th>Description</th><th>Total</th><th>Paid</th><th>Unpaid</th></tr>${state.expenses.map(e=>`<tr><td>${esc(e.date)}</td><td>${esc(e.category)}</td><td>${esc(e.vendor)}</td><td>${esc(e.desc)}</td><td>${money(e.amount)}</td><td>${money(e.paidAmount??e.amount)}</td><td>${money(Math.max(0,(+e.amount||0)-(+((e.paidAmount??e.amount))||0)))}</td></tr>`).join('')}</table><p><small>Report based on transactions entered in Majuri Pro. Work values are incurred costs; payment ledgers show cash settlements. Verify bills and entries against original records.</small></p>`;printHtml(html)}
+
+function buildDocumentHtml(overrideCid=null,overrideType=null){
+ const p=state.project,cid=overrideCid!==null?overrideCid:($('docContractor')?.value||''),stF=$('docStatusFilter')?.value||'',docT=overrideType||($('docType')?.value||'Quotation');
+ const ws=state.works.filter(w=>(!cid||w.contractorId===cid)&&(!stF||w.status===stF));
+ const ps=state.payments.filter(x=>!cid||x.contractorId===cid);
+ const workSum=ws.reduce((s,w)=>s+workAmount(w),0),compSum=ws.filter(w=>w.status==='Completed').reduce((s,w)=>s+workAmount(w),0);
+ const paidSum=ps.reduce((s,x)=>s+paymentNet(x),0),cashSum=contractorCashPaid(ps);
+ const cObj=cid?state.contractors.find(c=>c.id===cid):null;
+ const sub=cObj?`Contractor: <b>${esc(cObj.name)}</b> · Trade: ${esc(cObj.skill||'General')} ${cObj.phone?'· '+esc(cObj.phone):''}`:`Interior Work Measurement &amp; Cost Statement`;
+
+ const kpis=cObj
+  ? `<div class="exec-kpis">
+      <div class="exec-kpi"><small>All Assigned Work</small><b>${money(workSum)}</b></div>
+      <div class="exec-kpi"><small>Completed Work</small><b>${money(compSum)}</b></div>
+      <div class="exec-kpi"><small>Total Settled / Paid</small><b style="color:#087b59">${money(paidSum)}</b></div>
+      <div class="exec-kpi"><small>${compSum-paidSum>=0?'Net Payable':'Advance Paid'}</small><b style="color:${compSum-paidSum>=0?'#a65d06':'#087b59'}">${money(Math.abs(compSum-paidSum))}</b></div>
+     </div>`
+  : `<div class="exec-kpis">
+      <div class="exec-kpi"><small>Total Work Value</small><b>${money(workSum)}</b></div>
+      <div class="exec-kpi"><small>Completed Majuri</small><b>${money(compSum)}</b></div>
+      <div class="exec-kpi"><small>Cash Paid</small><b style="color:#087b59">${money(contractorCashPaid())}</b></div>
+      <div class="exec-kpi"><small>Net Balance</small><b style="color:#a65d06">${money(contractorDue())}</b></div>
+     </div>`;
+
+ const workTable=`<div class="exec-sec-title">Measured Work Schedule (${ws.length} items)</div>
+  <table class="exec-table"><thead><tr><th>#</th><th>Room &amp; Item</th><th>Dimensions / Area</th><th class="num">Qty</th><th class="num">Rate</th><th>Status</th><th class="num">Amount</th></tr></thead><tbody>
+  ${ws.map((w,i)=>{
+   const dims=(w.measurements||[]).map(m=>`${m.width}${m.widthUnit}×${m.height}${m.heightUnit}`).join(', ');
+   return `<tr><td>${i+1}</td><td><b>${esc(w.name)}</b><br><small style="color:#5a6982">${esc(w.room)} · ${esc(w.type)}</small></td><td>${fmtArea(calcArea(w))}<br><small style="color:#5a6982">${esc(dims)}</small></td><td class="num">${w.qty}</td><td class="num">${money(w.rate)}</td><td>${esc(w.status)}</td><td class="num"><b>${money(workAmount(w))}</b></td></tr>`;
+  }).join('')||'<tr><td colspan="7" style="text-align:center;color:#68758b">No work items match the selected filter.</td></tr>'}
+  </tbody><tfoot><tr><th colspan="6" style="text-align:right">Total Work Value</th><th class="num">${money(workSum)}</th></tr></tfoot></table>`;
+
+ const payTable=(docT==='Contractor Statement'||cObj)
+  ? `<div class="exec-sec-title">Payment &amp; Deduction Ledger (${ps.length} entries)</div>
+     <table class="exec-table"><thead><tr><th>Date</th><th>Type</th><th>Mode &amp; Ref</th><th>Description</th><th class="num">Amount</th></tr></thead><tbody>
+     ${ps.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.mode)} ${x.ref?'('+esc(x.ref)+')':''}</td><td>${esc(x.desc||x.notes||'—')}</td><td class="num"><b>${money(paymentNet(x))}</b></td></tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:#68758b">No payments recorded yet.</td></tr>'}
+     </tbody><tfoot><tr><th colspan="4" style="text-align:right">Total Settled (Cash ${money(cashSum)} + Deductions)</th><th class="num">${money(paidSum)}</th></tr></tfoot></table>`
+  : '';
+
+ const totalForWords=cObj?Math.abs(compSum-paidSum):workSum;
+ const wordsLabel=cObj?(compSum-paidSum>=0?'Net Payable in Words:':'Net Advance in Words:'):'Total Work Value in Words:';
+ const terms=$('docTerms')?.value||'';
+
+ return `<div class="exec-doc">
+  ${execDocHeader(docT,cObj?`${cObj.name} — Account Statement`:(p.name||'Interior Project Estimate'),sub,'MP-'+today().replace(/-/g,''))}
+  ${kpis}${workTable}${payTable}
+  <div class="exec-words"><b>${wordsLabel}</b> ${esc(amountInWordsINR(totalForWords))}</div>
+  ${terms?`<div style="font-size:11.5px;color:#4e5d78;margin-top:10px"><b>Terms &amp; Notes:</b> ${esc(terms)}</div>`:''}
+  <div class="exec-signs">
+   <div class="exec-sign-box">${cObj?'Contractor Signature ('+esc(cObj.name)+')':'Owner / Client Signature'}</div>
+   <div class="exec-sign-box" style="text-align:right">Authorized Signatory · Majuri Pro</div>
+  </div>
+ </div>`;
+}
 
 function renderReports(){
  fillSelects();
- let p=state.project,cid=$('docContractor')?.value||'',stF=$('docStatusFilter')?.value||'',docT=$('docType')?.value||'Quotation';
- let ws=state.works.filter(w=>(!cid||w.contractorId===cid)&&(!stF||w.status===stF));
- let ps=state.payments.filter(x=>!cid||x.contractorId===cid);
- let workSum=ws.reduce((s,w)=>s+workAmount(w),0),compSum=ws.filter(w=>w.status==='Completed').reduce((s,w)=>s+workAmount(w),0);
- let paidSum=ps.reduce((s,x)=>s+paymentNet(x),0),cashSum=contractorCashPaid(ps);
- let cObj=cid?state.contractors.find(c=>c.id===cid):null;
- let headerSub=cObj?`Contractor: <b>${esc(cObj.name)}</b> (${esc(cObj.skill||'')})`:`${esc(p.customer)} · ${esc(p.site)} · ${esc(p.phone)}`;
- let payTable=docT==='Contractor Statement'?`<h3>Payments &amp; adjustments</h3><div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Mode</th><th>Description</th><th>Amount</th></tr></thead><tbody>${ps.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.mode)}</td><td>${esc(x.desc)}</td><td>${money(paymentNet(x))}</td></tr>`).join('')||'<tr><td colspan="5">No payments recorded</td></tr>'}</tbody></table></div>`:'';
- let summaryHtml=cObj
-  ? `<p>Recorded work: <b>${money(workSum)}</b> · Completed work: <b>${money(compSum)}</b><br>Cash paid: ${money(cashSum)} · Total settled (incl. deductions): ${money(paidSum)}<br>Net balance (on completed work): <b>${money(compSum-paidSum)}</b></p>`
-  : `<p>Project cost incurred: <b>${money(projectCost())}</b><br>Contractor cash paid: ${money(contractorCashPaid())}<br>Contractor balance (positive = payable, negative = advance): <b>${money(contractorDue())}</b><br>Project expenses: ${money(expenseTotal())}<br>Total cash spent: <b>${money(totalCashOut())}</b></p>`;
- $('reportPreview').innerHTML=`<div style="margin-top:14px"><h3>${esc(p.name)}</h3><div class="hint">${headerSub}</div><div class="tablewrap" style="margin-top:10px"><table><thead><tr><th>Room / Work</th><th>Area</th><th>Rate</th><th>Status</th><th>Amount</th></tr></thead><tbody>${ws.map(w=>`<tr><td>${esc(w.room)} / ${esc(w.name)}</td><td>${fmtArea(calcArea(w))} × ${w.qty}</td><td>${money(w.rate)}</td><td>${esc(w.status)}</td><td>${money(workAmount(w))}</td></tr>`).join('')||'<tr><td colspan="5">No matching work items</td></tr>'}</tbody></table></div>${payTable}<h3>Total work listed: ${money(workSum)}</h3>${summaryHtml}</div>`;
  $('docDate').value=$('docDate').value||today();
  $('receiptSelect').innerHTML=state.payments.map(x=>`<option value="${x.id}">${esc(x.date)} · ${esc(x.desc||x.type)} · ${money(x.amount)}</option>`).join('');
+ $('reportPreview').innerHTML=`<div style="margin-top:12px;overflow-x:auto">${buildDocumentHtml()}</div>`;
 }
-function printDocument(){let type=$('docType').value,terms=$('docTerms').value,body=$('reportPreview').innerHTML;printHtml(`<h1>${esc(type)}</h1><p>${esc(state.project.name)} · ${esc(state.project.customer)} · ${esc(state.project.site)}</p>${body}<p><b>Terms:</b> ${esc(terms)}</p><p>Date: ${esc($('docDate').value)}</p><p>Customer signature: __________________ &nbsp; Prepared by: __________________</p>`)}
-function printReceipt(){let p=state.payments.find(x=>x.id===$('receiptSelect').value);if(!p)return alert('No payment selected.');printHtml(`<h1>PAYMENT RECEIPT</h1><p>Receipt ID: ${esc(p.id)}</p><p>Project: ${esc(state.project.name)}</p><p>Received from / Contractor: ${esc(state.contractors.find(c=>c.id===p.contractorId)?.name||'Not assigned')}</p><h2>${money(p.amount)}</h2><p>Date: ${esc(p.date)} · Type: ${esc(p.type)} · Mode: ${esc(p.mode)}</p><p>Reference: ${esc(p.ref)}</p><p>Description: ${esc(p.desc)}</p><p>Notes: ${esc(p.notes)}</p><p>Signature: __________________</p>`)}
-function printHtml(content){let w=window.open('','_blank');if(!w){alert('Allow pop-ups to print or save PDF.');return}w.document.write(`<html><head><title>Majuri Pro Document</title><style>body{font:14px Arial;padding:30px;color:#111}table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #ddd;padding:8px;text-align:left}h1{font-size:23px}
+
+function printDocument(){
+ const docT=$('docType')?.value||'Document',cid=$('docContractor')?.value||'';
+ const cObj=cid?state.contractors.find(c=>c.id===cid):null;
+ const docHtml=buildDocumentHtml();
+ const shareTxt=`*${docT}* — ${state.project.name}
+${cObj?'Contractor: '+cObj.name+'
+':''}Date: ${$('docDate').value}
+Total Work: ${money(total())}
+Generated via Majuri Pro`;
+ openDocSheet(`${docT} · Print / Save PDF`,docHtml,shareTxt);
+}
+
+function printContractorStatement(cid){
+ const c=state.contractors.find(x=>x.id===cid);if(!c)return;
+ const docHtml=buildDocumentHtml(cid,'Contractor Statement');
+ const earned=state.works.filter(w=>w.contractorId===cid&&w.status==='Completed').reduce((a,w)=>a+workAmount(w),0);
+ const settled=state.payments.filter(p=>p.contractorId===cid).reduce((a,p)=>a+paymentNet(p),0);
+ const shareTxt=`*Contractor Statement: ${c.name}*
+Project: ${state.project.name}
+Completed Work: ${money(earned)}
+Paid/Settled: ${money(settled)}
+Balance: ${money(earned-settled)}`;
+ openDocSheet(`${c.name} — Statement`,docHtml,shareTxt);
+}
+
+function printReceipt(){
+ const p=state.payments.find(x=>x.id===$('receiptSelect').value);
+ if(!p){showToast('No payment selected');return}
+ const c=state.contractors.find(x=>x.id===p.contractorId);
+ const cEarned=c?state.works.filter(w=>w.contractorId===c.id&&w.status==='Completed').reduce((a,w)=>a+workAmount(w),0):0;
+ const cSettled=c?state.payments.filter(x=>x.contractorId===c.id).reduce((a,x)=>a+paymentNet(x),0):0;
+ const voucherHtml=`<div class="exec-doc exec-voucher">
+  ${execDocHeader('PAYMENT VOUCHER','Payment Receipt',`Transaction Mode: <b>${esc(p.mode)}</b> · Type: <b>${esc(p.type)}</b>`,p.id.toUpperCase())}
+  <div class="exec-kpis">
+   <div class="exec-kpi"><small>Paid To / Contractor</small><b>${esc(c?.name||'Unassigned')}</b></div>
+   <div class="exec-kpi"><small>Payment Date</small><b>${esc(p.date)}</b></div>
+   <div class="exec-kpi" style="background:#e9f7f1;border-color:#bce6d4"><small>Amount Paid</small><b style="color:#087b59;font-size:18px">${money(p.amount)}</b></div>
+  </div>
+  <div class="exec-words"><b>Amount in Words:</b> ${esc(amountInWordsINR(p.amount))}</div>
+  <table class="exec-table"><tbody>
+   <tr><td style="width:34%"><b>Purpose / Description</b></td><td>${esc(p.desc||p.type+' payment')}</td></tr>
+   <tr><td><b>Reference / Cheque / UPI ID</b></td><td>${esc(p.ref||'—')}</td></tr>
+   <tr><td><b>Notes</b></td><td>${esc(p.notes||'—')}</td></tr>
+   ${c?`<tr><td><b>Contractor Account Summary</b></td><td>Completed Work: ${money(cEarned)} · Total Paid: ${money(cSettled)} · Net Balance: <b>${money(cEarned-cSettled)}</b></td></tr>`:''}
+  </tbody></table>
+  ${p.photo?`<div style="margin-top:10px"><small style="color:#5a6982;font-weight:700">ATTACHED RECEIPT PROOF</small><br><img src="${p.photo}" style="max-height:180px;border-radius:10px;border:1px solid #d9e0ec;margin-top:5px"></div>`:''}
+  <div class="exec-signs">
+   <div class="exec-sign-box">Receiver's Signature (${esc(c?.name||'Contractor')})</div>
+   <div class="exec-sign-box" style="text-align:right">Paid By (${esc(state.project.customer||'Owner')})</div>
+  </div>
+ </div>`;
+ const shareTxt=`*Payment Receipt (${p.date})*
+Paid to: ${c?.name||'Contractor'}
+Amount: *${money(p.amount)}* (${p.mode})
+For: ${p.desc||p.type}
+Ref: ${p.ref||'N/A'}`;
+ openDocSheet('Payment Voucher · Print / Save PDF',voucherHtml,shareTxt);
+}
+
+function printFinancialReport(){
+ const p=state.project,cost=projectCost(),maj=completedWorkTotal(),exp=expenseTotal(),cash=totalCashOut(),bud=+state.budget||0;
+ const html=`<div class="exec-doc">
+  ${execDocHeader('COMPLETE ACCOUNT STATEMENT',p.name||'Home Interior Project','Comprehensive Labour, Material &amp; Cashflow Statement','ACC-'+today().replace(/-/g,''))}
+  <div class="exec-kpis">
+   <div class="exec-kpi"><small>Total Project Cost</small><b>${money(cost)}</b></div>
+   <div class="exec-kpi"><small>Total Cash Spent</small><b style="color:#087b59">${money(cash)}</b></div>
+   <div class="exec-kpi"><small>Total Still Payable</small><b style="color:#a65d06">${money(contractorDue()+expenseDue())}</b></div>
+   <div class="exec-kpi"><small>Approved Budget</small><b>${bud?money(bud):'Not Set'}</b></div>
+  </div>
+  <div class="exec-sec-title">1. Financial Summary</div>
+  <table class="exec-table"><tbody>
+   <tr><td>Completed Work / Majuri Incurred</td><td class="num"><b>${money(maj)}</b></td></tr>
+   <tr><td>All Recorded Work (incl. Planned / In Progress)</td><td class="num">${money(total())}</td></tr>
+   <tr><td>Material &amp; Other Project Expenses</td><td class="num"><b>${money(exp)}</b></td></tr>
+   <tr><th>Total Project Cost Incurred</th><th class="num">${money(cost)}</th></tr>
+   <tr><td>Contractor Cash Paid</td><td class="num">${money(contractorCashPaid())}</td></tr>
+   <tr><td>Contractor Net Balance (+ Payable / − Advance)</td><td class="num"><b>${money(contractorDue())}</b></td></tr>
+   <tr><td>Material &amp; Expense Bills Paid</td><td class="num">${money(expensePaid())}</td></tr>
+   <tr><td>Material &amp; Expense Bills Unpaid</td><td class="num"><b>${money(expenseDue())}</b></td></tr>
+   <tr><th>Total Cash Outflow</th><th class="num">${money(cash)}</th></tr>
+   ${bud?`<tr><td>Budget Variance (${bud>=cost?'Remaining':'Over Budget'})</td><td class="num"><b>${money(bud-cost)}</b></td></tr>`:''}
+  </tbody></table>
+  <div class="exec-words"><b>Total Cost Incurred in Words:</b> ${esc(amountInWordsINR(cost))}</div>
+  <div class="exec-sec-title">2. Room-Wise Work Breakdown</div>
+  <table class="exec-table"><thead><tr><th>Room</th><th>Work Item</th><th>Contractor</th><th>Status</th><th class="num">Amount</th></tr></thead><tbody>
+  ${state.works.map(w=>`<tr><td>${esc(w.room)}</td><td>${esc(w.name)}</td><td>${esc(state.contractors.find(c=>c.id===w.contractorId)?.name||'—')}</td><td>${esc(w.status)}</td><td class="num">${money(workAmount(w))}</td></tr>`).join('')||'<tr><td colspan="5">No work items</td></tr>'}
+  </tbody></table>
+  <div class="exec-sec-title">3. Contractor Payments</div>
+  <table class="exec-table"><thead><tr><th>Date</th><th>Contractor</th><th>Type</th><th>Mode</th><th>Description</th><th class="num">Amount</th></tr></thead><tbody>
+  ${state.payments.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(state.contractors.find(c=>c.id===x.contractorId)?.name||'—')}</td><td>${esc(x.type)}</td><td>${esc(x.mode)}</td><td>${esc(x.desc)}</td><td class="num">${money(paymentNet(x))}</td></tr>`).join('')||'<tr><td colspan="6">No payments</td></tr>'}
+  </tbody></table>
+  <div class="exec-sec-title">4. Purchases &amp; Expenses</div>
+  <table class="exec-table"><thead><tr><th>Date</th><th>Category</th><th>Vendor &amp; Item</th><th class="num">Total</th><th class="num">Paid</th><th class="num">Unpaid</th></tr></thead><tbody>
+  ${state.expenses.map(e=>`<tr><td>${esc(e.date)}</td><td>${esc(e.category)}</td><td><b>${esc(e.vendor||'—')}</b> · ${esc(e.desc)}</td><td class="num">${money(e.amount)}</td><td class="num">${money(e.paidAmount??e.amount)}</td><td class="num">${money(Math.max(0,(+e.amount||0)-(+((e.paidAmount??e.amount))||0)))}</td></tr>`).join('')||'<tr><td colspan="6">No expenses</td></tr>'}
+  </tbody></table>
+ </div>`;
+ const shareTxt=`*Project Account Statement: ${p.name}*
+Total Cost: ${money(cost)}
+Cash Spent: ${money(cash)}
+Payable: ${money(contractorDue()+expenseDue())}`;
+ openDocSheet('Complete Account Statement · PDF',html,shareTxt);
+}
+
+function printExpenseLedger(){
+ const p=state.project,tot=expenseTotal(),pd=expensePaid(),due=expenseDue();
+ const html=`<div class="exec-doc">
+  ${execDocHeader('EXPENSE & MATERIAL LEDGER',p.name||'Home Interior Project','All Material Purchases, Transport &amp; Vendor Bills','EXP-'+today().replace(/-/g,''))}
+  <div class="exec-kpis">
+   <div class="exec-kpi"><small>Total Bills</small><b>${money(tot)}</b></div>
+   <div class="exec-kpi"><small>Amount Paid</small><b style="color:#087b59">${money(pd)}</b></div>
+   <div class="exec-kpi"><small>Balance Unpaid</small><b style="color:#a65d06">${money(due)}</b></div>
+  </div>
+  <table class="exec-table"><thead><tr><th>Date</th><th>Category</th><th>Vendor</th><th>Item / Bill Ref</th><th class="num">Bill</th><th class="num">Paid</th><th class="num">Unpaid</th></tr></thead><tbody>
+  ${state.expenses.map(e=>{const u=Math.max(0,(+e.amount||0)-(+((e.paidAmount??e.amount))||0));return `<tr><td>${esc(e.date)}</td><td>${esc(e.category)}</td><td>${esc(e.vendor||'—')}</td><td>${esc(e.desc)} ${e.billRef?'<br><small>Ref: '+esc(e.billRef)+'</small>':''}</td><td class="num">${money(e.amount)}</td><td class="num">${money(e.paidAmount??e.amount)}</td><td class="num"><b>${money(u)}</b></td></tr>`}).join('')||'<tr><td colspan="7">No expenses recorded</td></tr>'}
+  </tbody><tfoot><tr><th colspan="4" style="text-align:right">Totals</th><th class="num">${money(tot)}</th><th class="num">${money(pd)}</th><th class="num">${money(due)}</th></tr></tfoot></table>
+  <div class="exec-words"><b>Total Expense Value in Words:</b> ${esc(amountInWordsINR(tot))}</div>
+ </div>`;
+ openDocSheet('Material & Expense Ledger · PDF',html,`*Material & Expense Ledger*
+Total: ${money(tot)} | Paid: ${money(pd)} | Unpaid: ${money(due)}`);
+}
+
+function printHtml(content){openDocSheet('Document Preview',content)}
+function legacyPrintHtml(content){let w=window.open('','_blank');if(!w){alert('Allow pop-ups to print or save PDF.');return}w.document.write(`<html><head><title>Majuri Pro Document</title><style>body{font:14px Arial;padding:30px;color:#111}table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #ddd;padding:8px;text-align:left}h1{font-size:23px}
 /* V2.3 graphical refresh */
 body{background:radial-gradient(ellipse at 12% 0%,color-mix(in srgb,var(--accent) 10%,var(--bg)),transparent 36%),var(--bg)}
 header{background:linear-gradient(115deg,#172b55,#405cf5 68%,#7855d9);color:#fff;border:0;padding:17px 17px;box-shadow:0 8px 24px #3048a52b}
@@ -687,6 +982,22 @@ input,select,textarea{border-radius:13px}
 @media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style></head><body>${content}<footer style="margin-top:36px;padding-top:12px;border-top:1px solid #ddd;text-align:center;color:#667085;font-size:11px;letter-spacing:.4px">Created &amp; Crafted by <strong>Vivek Narkhede</strong> · Majuri Pro</footer><script>window.onload=()=>window.print()<\/script><div id="actionOverlay" role="dialog" aria-modal="true" aria-labelledby="actionTitle"><div class="action-dialog"><div class="symbol">!</div><h2 id="actionTitle">Confirm action</h2><p id="actionMessage">Are you sure?</p><div class="actions"><button class="danger" id="actionConfirm">Delete</button><button class="secondary" id="actionCancel">Cancel</button></div></div></div><div id="photoLightbox" onclick="this.classList.remove('show')"><img id="lightboxImg" src="" alt="Full preview"></div><div id="appToast" role="status"></div>
 
+
+<div id="docSheet" class="sheet-backdrop" onclick="if(event.target===this)closeDocSheet()">
+ <div class="sheet-panel">
+  <div class="sheet-handle"></div>
+  <div class="row between">
+   <h3 id="docSheetTitle" style="margin:0">Document preview</h3>
+   <button class="secondary small" onclick="closeDocSheet()">✕ Close</button>
+  </div>
+  <div class="actions" style="margin-top:10px">
+   <button onclick="triggerDirectPrint()">🖨 Print / Save PDF</button>
+   <button class="secondary" onclick="shareDocSummary()">📤 Share / Copy Summary</button>
+  </div>
+  <div id="docSheetBody"></div>
+ </div>
+</div>
+<div id="printMount" class="hidden"></div>
 </body></html>`);w.document.close()}
 function csv(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}function download(data,name,type){let a=document.createElement('a'),u=URL.createObjectURL(new Blob([data],{type}));a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500)}
 function exportCSV(){let rows=[['Project','Room','Type','Item','Measurement rows','Area sq ft','Qty','Rate','Amount','Contractor','Status','Notes']];state.works.forEach(w=>rows.push([state.project.name,w.room,w.type,w.name,(w.measurements||[]).map(m=>`${m.width}${m.widthUnit}x${m.height}${m.heightUnit}`).join('; '),calcArea(w),w.qty,w.rate,workAmount(w),state.contractors.find(c=>c.id===w.contractorId)?.name,w.status,w.notes]));download('\ufeff'+rows.map(r=>r.map(csv).join(',')).join('\r\n'),'majuri-pro-work.csv','text/csv;charset=utf-8')}
