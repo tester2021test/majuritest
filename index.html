@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#172033"><meta name="description" content="Majuri Pro V2 offline interior work and payment manager">
-<title>Majuri Pro V4.1 · Project Workspace</title>
+<title>Majuri Pro V5.0 · Project Workspace</title>
 <style>
 :root{--bg:#eef2fa;--card:#fff;--ink:#18243b;--muted:#68758b;--line:#e1e7f2;--accent:#405cf5;--soft:#e9edff;--good:#07865f;--warn:#b66b08;--bad:#d33b50;--shadow:0 8px 26px #253b6812;--cyan:#0d9bb5;--purple:#8755d9;--orange:#ed8b32}
 [data-theme=dark]{--bg:#0d1422;--card:#172338;--ink:#f0f4ff;--muted:#a8b5ca;--line:#2a3a55;--accent:#91a5ff;--soft:#273656;--good:#55d6aa;--warn:#ffca75;--bad:#ff8795;--shadow:0 8px 26px #0004;--cyan:#4bc4db;--purple:#b18bff;--orange:#ffb36c}
@@ -359,19 +359,116 @@ body{
   #printMount{position:fixed!important;inset:0!important;background:#fff!important;padding:0!important;margin:0!important;display:block!important}
   .exec-table tr,.exec-kpi,.exec-voucher{break-inside:avoid}
 }
+
+/* ==========================================================================
+   V5.0 Login Showcase, Fixed A4 Print / PDF Engine & Mobile Graphical UI
+   ========================================================================== */
+body:not(.authenticated){
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;
+  background:radial-gradient(circle at 12% 10%,#3b5bdb24,transparent 42%),radial-gradient(circle at 88% 85%,#7650c824,transparent 42%),#eef2fb;
+}
+#loginPanel{
+  width:min(100%,460px);margin:0 auto;padding:0;overflow:hidden;border-radius:28px;
+  background:#fff;border:1px solid #dce4f7;box-shadow:0 24px 70px rgba(20,38,84,.16);
+}
+.login-hero-band{
+  background:linear-gradient(135deg,#132547 0%,#264998 58%,#5c43a8 100%);
+  color:#fff;padding:24px 24px 20px;position:relative;overflow:hidden;
+}
+.login-hero-band:after{
+  content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-75px;top:-75px;
+  background:radial-gradient(circle,#ffffff2b,transparent 70%);pointer-events:none;
+}
+#loginPanel .brand-mark{
+  width:52px;height:52px;border-radius:16px;margin-bottom:14px;
+  background:linear-gradient(145deg,#ffffff2e,#ffffff12);border:1px solid #ffffff3d;
+  backdrop-filter:blur(8px);box-shadow:0 10px 24px rgba(0,0,0,.18);font-size:24px;
+}
+#loginPanel .login-badge{background:#ffffff22;color:#fff;border:1px solid #ffffff36;font-size:10px}
+#loginPanel h1{color:#fff;font-size:26px;margin:0;letter-spacing:-.6px}
+#loginPanel .login-sub{color:#dce7ff;font-size:13.5px;line-height:1.55;margin:8px 0 16px}
+.login-features{display:grid;gap:8px;margin-top:10px}
+.lf-item{
+  display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:14px;
+  background:#ffffff14;border:1px solid #ffffff22;backdrop-filter:blur(6px);
+}
+.lf-ico{
+  width:34px;height:34px;border-radius:10px;background:#ffffff24;color:#fff;
+  display:grid;place-items:center;font-size:16px;flex-shrink:0;
+}
+.lf-item b{display:block;font-size:12.5px;color:#fff;font-weight:750}
+.lf-item small{display:block;font-size:11px;color:#d0defc;line-height:1.3}
+.login-action-box{padding:20px 24px 22px;background:#fff}
+#googleLoginBtn{
+  min-height:52px;border-radius:15px;border:1.5px solid #cfd8ec;background:#fff;color:#1b2842;
+  font-size:15px;font-weight:750;box-shadow:0 6px 18px rgba(27,47,107,.1);transition:transform .12s,box-shadow .15s,border-color .15s;
+}
+#googleLoginBtn:hover:not(:disabled){border-color:#3157d5;box-shadow:0 8px 22px rgba(49,87,213,.18);transform:translateY(-1px)}
+.login-steps{
+  display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;
+  margin:10px 0 14px;font-size:11px;font-weight:700;color:#5a6985;
+}
+#loginPanel .secure-note{margin-top:0;background:#f0f4ff;border:1px solid #d9e3ff;color:#3c4e75}
+#loginPanel .creator{margin-top:16px;padding-top:12px}
+
+/* Mobile Graphical Enhancements: Completion Ring & Rich Cards */
+.ring-badge{
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:850;
+  background:conic-gradient(var(--good) calc(var(--p,0)*1%),var(--line) 0);position:relative;flex-shrink:0;
+}
+.ring-badge:after{
+  content:attr(data-pct);position:absolute;inset:5px;border-radius:50%;background:var(--card);
+  display:grid;place-items:center;color:var(--ink);font-size:10.5px;
+}
+.pay-card-v5{
+  border:1px solid var(--line);border-radius:17px;padding:13px 14px;margin:10px 0;
+  background:var(--card);box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.pay-card-v5:before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--good);
+}
+.pay-card-v5.neg:before{background:var(--bad)}
+
+/* Print / Save PDF Fix: Clean A4 Print Isolation without breaking visibility */
+@media print{
+  @page{size:A4;margin:12mm}
+  html,body{background:#fff!important;color:#111!important;margin:0!important;padding:0!important;height:auto!important;overflow:visible!important}
+  header,#cloudBar,.wrap,.bottom,.fab,.no-print,#actionOverlay,#photoLightbox,#appToast,#loginPanel,#contractorForm,#docSheet{
+    display:none!important;
+  }
+  #printMount{
+    display:block!important;position:static!important;width:100%!important;background:#fff!important;color:#111!important;padding:0!important;margin:0!important;
+  }
+  .exec-doc{color:#111!important;font-size:12pt}
+  .exec-table tr,.exec-kpi,.exec-voucher,.exec-signs{break-inside:avoid}
+}
 </style></head>
 <body>
 <section id="loginPanel" aria-label="Majuri Pro secure sign in">
- <div class="brand-mark">M</div>
- <h1>Majuri Pro</h1>
- <span class="pill">PRIVATE CLOUD WORKSPACE</span>
- <p class="login-sub">Your home project. Your records. Sign in securely with your approved Google account. Cloud sync requires an internet connection.</p>
- <button id="googleLoginBtn" type="button" style="width:100%"><span class="google-g" aria-hidden="true">G</span> Continue with Google</button>
- <p id="loginMessage" class="hint" role="status" aria-live="polite">Sign in with your approved Google account to continue.</p>
- <div class="secure-note"><span>🔒</span><span>Private account access. Only the approved account can access its own project records.</span></div>
- <div class="creator">CREATED &amp; CRAFTED BY <strong>VIVEK NARKHEDE</strong></div>
+ <div class="login-hero-band">
+  <div class="row between" style="align-items:flex-start">
+   <div class="brand-mark">M</div>
+   <span class="pill login-badge">V5.0 · CLOUD + OFFLINE</span>
+  </div>
+  <h1>Majuri Pro</h1>
+  <p class="login-sub">Complete interior renovation tracker — measure work, manage contractor majuri, log material bills &amp; generate instant PDF receipts.</p>
+  <div class="login-features">
+   <div class="lf-item"><span class="lf-ico">📐</span><div><b>Smart Area &amp; Rate Calc</b><small>Feet, inches &amp; multi-panel work items</small></div></div>
+   <div class="lf-item"><span class="lf-ico">₹</span><div><b>Contractor &amp; Bill Ledger</b><small>Track advances, deductions &amp; unpaid bills</small></div></div>
+   <div class="lf-item"><span class="lf-ico">📄</span><div><b>Instant A4 PDF &amp; Vouchers</b><small>One-tap receipts, statements &amp; WhatsApp share</small></div></div>
+  </div>
+ </div>
+ <div class="login-action-box">
+  <button id="googleLoginBtn" type="button" style="width:100%"><span class="google-g" aria-hidden="true">G</span> Continue with Google</button>
+  <p id="loginMessage" class="hint" role="status" aria-live="polite">Tap above to sign in with your approved Google account.</p>
+  <div class="login-steps">
+   <span>1. Sign in with Google</span><span>→</span><span>2. Auto-sync cloud</span><span>→</span><span>3. Works offline</span>
+  </div>
+  <div class="secure-note"><span>🔒</span><span><b>Private Single-Owner Vault:</b> Restricted to approved Google account access. Local IndexedDB backup keeps data safe even without internet.</span></div>
+  <div class="creator">CREATED &amp; CRAFTED BY <strong>VIVEK NARKHEDE</strong></div>
+ </div>
 </section>
-<header><div><h1>MAJURI PRO <span class="pill">V4.1</span></h1><small id="projectSubtitle">Created &amp; Crafted by Vivek Narkhede</small></div><div class="row" style="gap:6px"><button class="secondary small" onclick="go('reports')" title="PDF & Reports">📄 PDF</button><button class="secondary small" onclick="toggleTheme()" id="themeBtn">☾ Theme</button></div></header>
+<header><div><h1>MAJURI PRO <span class="pill">V5.0</span></h1><small id="projectSubtitle">Created &amp; Crafted by Vivek Narkhede</small></div><div class="row" style="gap:6px"><button class="secondary small" onclick="go('reports')" title="PDF & Reports">📄 PDF</button><button class="secondary small" onclick="toggleTheme()" id="themeBtn">☾ Theme</button></div></header>
 <div id="cloudBar"><div class="cloud-meta"><span class="cloud-email-wrap">Account: <b id="accountEmail">—</b></span><span><b id="cloudStatus">Not connected</b></span></div><div class="cloud-actions"><button class="secondary small" id="syncNowBtn" type="button">↻ Sync</button><button class="secondary small" id="logoutBtn" type="button">Sign out</button></div></div>
 <div class="wrap">
 <section id="home" class="page active">
@@ -624,7 +721,7 @@ function renderDashboard(){let t=total(),p=paid(),done=state.works.filter(w=>w.s
 let activeStatusFilter='';
 function setStatusFilter(st){activeStatusFilter=st;document.querySelectorAll('#statusChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.st===st));renderRooms()}
 function fillSelects(){const allRooms=Array.from(new Set([...state.rooms,...state.works.map(w=>w.room).filter(Boolean)]));let curFilter=$('roomFilter')?.value||'',curWc=$('workContractorFilter')?.value||'',curDc=$('docContractor')?.value||'';let rooms=allRooms.map(x=>`<option>${esc(x)}</option>`).join(''),types=state.types.map(x=>`<option>${esc(x)}</option>`).join(''),cs='<option value="">Unassigned</option>'+state.contractors.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join(''),allCs='<option value="">All contractors</option>'+state.contractors.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');$('fRoom').innerHTML=state.rooms.map(x=>`<option>${esc(x)}</option>`).join('');$('roomFilter').innerHTML='<option value="">All rooms</option>'+rooms;$('roomFilter').value=curFilter;$('fType').innerHTML=types;$('fContractor').innerHTML=cs;$('payContractor').innerHTML=cs;$('payFilterContractor').innerHTML=allCs;if($('workContractorFilter')){$('workContractorFilter').innerHTML=allCs;$('workContractorFilter').value=curWc}if($('docContractor')){$('docContractor').innerHTML=allCs;$('docContractor').value=curDc}}
-function renderRooms(){fillSelects();const allRooms=Array.from(new Set([...state.rooms,...state.works.map(w=>w.room).filter(Boolean)]));let sums=allRooms.map(r=>({r,ws:state.works.filter(w=>w.room===r)}));$('roomCards').innerHTML=sums.map(x=>{let done=x.ws.filter(w=>w.status==='Completed').length,pct=x.ws.length?Math.round(done/x.ws.length*100):0;let cover=x.ws.slice().reverse().flatMap(w=>w.photos||[])[0];return `<div class="card room-card"><div class="row between"><b>${esc(x.r)} ${state.rooms.includes(x.r)?'':'<span class="pill">Archived</span>'}</b><span class="pill ${pct===100&&x.ws.length?'good':''}">${done}/${x.ws.length} done</span></div>${cover?`<img class="room-cover thumb" src="${cover}" alt="${esc(x.r)}" title="Tap to enlarge">`:''}<div class="big" style="margin:8px 0">${money(x.ws.reduce((s,w)=>s+workAmount(w),0))}</div><div class="bar" style="margin:6px 0 8px;height:6px"><span style="width:${pct}%"></span></div><div class="row between"><span class="hint">${x.ws.length} item(s)</span><div class="row" style="gap:5px">${state.rooms.includes(x.r)?`<button class="secondary small" title="Add work to ${esc(x.r)}" onclick="openWork('${esc(x.r)}')">＋</button>`:''}<button class="secondary small" onclick="selectRoom('${esc(x.r)}')">View →</button></div></div></div>`}).join('');let r=$('roomFilter').value,wc=$('workContractorFilter')?.value||'',q=($('workSearch')?.value||'').trim().toLowerCase();let arr=state.works.filter(w=>(!r||w.room===r)&&(!wc||w.contractorId===wc)&&(!activeStatusFilter||w.status===activeStatusFilter)&&(!q||`${w.name} ${w.type} ${w.room} ${w.notes||''}`.toLowerCase().includes(q)));if($('workFilterCount'))$('workFilterCount').textContent=`${arr.length} of ${state.works.length}`;$('roomWorkList').innerHTML=arr.map(workCard).join('')||'<div class="empty">No matching work items. Adjust filters or tap + Add work.</div>'}
+function renderRooms(){fillSelects();const allRooms=Array.from(new Set([...state.rooms,...state.works.map(w=>w.room).filter(Boolean)]));let sums=allRooms.map(r=>({r,ws:state.works.filter(w=>w.room===r)}));$('roomCards').innerHTML=sums.map(x=>{let done=x.ws.filter(w=>w.status==='Completed').length,pct=x.ws.length?Math.round(done/x.ws.length*100):0;let cover=x.ws.slice().reverse().flatMap(w=>w.photos||[])[0];return `<div class="card room-card"><div class="row between"><div><b>${esc(x.r)} ${state.rooms.includes(x.r)?'':'<span class="pill">Archived</span>'}</b><div class="hint">${done}/${x.ws.length} done</div></div><div class="ring-badge" style="--p:${pct}" data-pct="${pct}%"></div></div>${cover?`<img class="room-cover thumb" src="${cover}" alt="${esc(x.r)}" title="Tap to enlarge">`:''}<div class="big" style="margin:8px 0">${money(x.ws.reduce((s,w)=>s+workAmount(w),0))}</div><div class="row between"><span class="hint">${x.ws.length} item(s)</span><div class="row" style="gap:5px">${state.rooms.includes(x.r)?`<button class="secondary small" title="Add work to ${esc(x.r)}" onclick="openWork('${esc(x.r)}')">＋</button>`:''}<button class="secondary small" onclick="selectRoom('${esc(x.r)}')">View →</button></div></div></div>`}).join('');let r=$('roomFilter').value,wc=$('workContractorFilter')?.value||'',q=($('workSearch')?.value||'').trim().toLowerCase();let arr=state.works.filter(w=>(!r||w.room===r)&&(!wc||w.contractorId===wc)&&(!activeStatusFilter||w.status===activeStatusFilter)&&(!q||`${w.name} ${w.type} ${w.room} ${w.notes||''}`.toLowerCase().includes(q)));if($('workFilterCount'))$('workFilterCount').textContent=`${arr.length} of ${state.works.length}`;$('roomWorkList').innerHTML=arr.map(workCard).join('')||'<div class="empty">No matching work items. Adjust filters or tap + Add work.</div>'}
 function selectRoom(r){$('roomFilter').value=r;renderRooms();$('roomWorkList').scrollIntoView({behavior:'smooth'})}
 async function cycleWorkStatus(id){const order=['Planned','In progress','Completed'],w=state.works.find(x=>x.id===id);if(!w)return;const next=order[(order.indexOf(w.status||'Planned')+1)%order.length];w.status=next;snap('Work status updated',`${w.name}: ${next}`);renderAll();await persist();showToast(`${w.name} → ${next}`)}
 async function duplicateWork(id){const orig=state.works.find(x=>x.id===id);if(!orig)return;const copy=structuredClone(orig);copy.id=uid();copy.name=orig.name+' (Copy)';copy.status='Planned';copy.measurements=(copy.measurements||[]).map(m=>({...m,id:uid()}));state.works.push(copy);snap('Work item duplicated',copy.name);renderAll();await persist();showToast('Work item duplicated')}
@@ -645,7 +742,7 @@ function newPayment(){ $('payId').value='';$('paymentFormTitle').textContent='Ad
 async function savePayment(){let id=$('payId').value||uid(),old=state.payments.find(p=>p.id===id),photo=old?.photo||'';let f=$('payPhoto').files[0];if(f){if(f.size>4*1024*1024){alert('Receipt photo must be under 4 MB.');return}photo=await compressPhoto(f)}let amount=+$('payAmount').value||0;if(amount<=0){alert('Enter a valid amount.');return}let p={id,date:$('payDate').value||today(),contractorId:$('payContractor').value,type:$('payType').value,amount,mode:$('payMode').value,ref:$('payRef').value,desc:$('payDesc').value,notes:$('payNotes').value,photo};let ix=state.payments.findIndex(x=>x.id===id);snap(ix<0?'Payment added':`Payment edited (${money(old.amount)} → ${money(amount)})`,p.desc||p.type);if(ix<0)state.payments.push(p);else state.payments[ix]=p;await persist();newPayment();renderAll()}
 function editPayment(id){let p=state.payments.find(x=>x.id===id);if(!p)return;$('payId').value=id;$('paymentFormTitle').textContent='Edit payment';$('payDate').value=p.date||today();$('payContractor').value=p.contractorId||'';$('payType').value=p.type;$('payAmount').value=p.amount;$('payMode').value=p.mode||'Cash';$('payRef').value=p.ref||'';$('payDesc').value=p.desc||'';$('payNotes').value=p.notes||'';$('payPhoto').value='';$('deletePayBtn').style.display='inline-flex';$('paymentForm').scrollIntoView({behavior:'smooth'})}
 async function deletePayment(){let id=$('payId').value;if(!id)return;let p=state.payments.find(x=>x.id===id);if(!await confirmAction('Delete payment?',`Delete ${p?.desc||p?.type||'this payment'} · ${money(p?.amount)}? It will be recorded in revision history.`))return;snap('Payment deleted',`${p?.desc||p?.type} · ${money(p?.amount)}`);state.payments=state.payments.filter(x=>x.id!==id);newPayment();renderAll();await persist();showToast('Payment deleted · Screen updated')}
-function renderPayments(){fillSelects();let t=total(),p=paid();$('pWorkTotal').textContent=money(t);$('pPaidTotal').textContent=money(contractorCashPaid());$('pBalance').textContent=money(contractorDue());let c=$('payFilterContractor').value,ty=$('payFilterType').value,arr=state.payments.filter(x=>(!c||x.contractorId===c)&&(!ty||x.type===ty));$('paymentList').innerHTML=arr.slice().reverse().map(x=>`<div class="card"><div class="row between"><div><span class="pill">${esc(x.type)}</span><h3 style="margin:6px 0">${esc(x.desc||x.type)}</h3><div class="hint">${esc(x.date)} · ${esc(state.contractors.find(c=>c.id===x.contractorId)?.name||'Unassigned')} · ${esc(x.mode)}</div><b class="${['Refund','Deduction'].includes(x.type)?'bad':'good'}">${['Refund','Deduction'].includes(x.type)?'−':''}${money(x.amount)}</b><div class="hint">${esc(x.ref)} ${esc(x.notes)}</div></div><button class="secondary small" onclick="editPayment('${x.id}')">✎ Edit</button></div>${x.photo?`<img class="thumb" src="${x.photo}">`:''}</div>`).join('')||'<div class="empty">No transactions match this filter.</div>';let rs=$('receiptSelect');if(rs)rs.innerHTML=state.payments.map(x=>`<option value="${x.id}">${esc(x.date)} · ${esc(x.desc||x.type)} · ${money(x.amount)}</option>`).join('')}
+function renderPayments(){fillSelects();let t=total(),p=paid();$('pWorkTotal').textContent=money(t);$('pPaidTotal').textContent=money(contractorCashPaid());$('pBalance').textContent=money(contractorDue());let c=$('payFilterContractor').value,ty=$('payFilterType').value,arr=state.payments.filter(x=>(!c||x.contractorId===c)&&(!ty||x.type===ty));$('paymentList').innerHTML=arr.slice().reverse().map(x=>{const isNeg=['Refund','Deduction'].includes(x.type);return `<div class="pay-card-v5 ${isNeg?'neg':''}"><div class="row between" style="align-items:flex-start"><div><span class="pill ${isNeg?'warn':'good'}">${esc(x.type)} · ${esc(x.mode)}</span><h3 style="margin:6px 0 2px">${esc(x.desc||x.type)}</h3><div class="hint">${esc(x.date)} · ${esc(state.contractors.find(c=>c.id===x.contractorId)?.name||'Unassigned')}</div></div><div style="text-align:right"><div class="big ${isNeg?'bad':'good'}" style="font-size:18px">${isNeg?'−':''}${money(x.amount)}</div></div></div>${x.ref||x.notes?`<div class="hint" style="margin-top:6px">${x.ref?'Ref: '+esc(x.ref)+' · ':''}${esc(x.notes)}</div>`:''}${x.photo?`<div style="margin-top:8px"><img class="thumb" src="${x.photo}" title="Tap to enlarge"></div>`:''}<div class="actions" style="margin-top:9px;justify-content:flex-end"><button class="secondary small" onclick="$('receiptSelect').value='${x.id}';printReceipt()">🧾 Voucher PDF</button><button class="secondary small" onclick="editPayment('${x.id}')">✎ Edit</button></div></div>`}).join('')||'<div class="empty">No transactions match this filter.</div>';let rs=$('receiptSelect');if(rs)rs.innerHTML=state.payments.map(x=>`<option value="${x.id}">${esc(x.date)} · ${esc(x.desc||x.type)} · ${money(x.amount)}</option>`).join('')}
 function newContractor(){$('cFormTitle').textContent='Add contractor';$('contractorForm').classList.add('show');['cId','cName','cPhone','cNotes'].forEach(x=>$(x).value='');$('cSkill').value='Carpenter'}
 function saveContractor(){let id=$('cId').value||uid(),c={id,name:$('cName').value.trim(),phone:$('cPhone').value,skill:$('cSkill').value,notes:$('cNotes').value};if(!c.name){showToast('Enter contractor name');return}let ix=state.contractors.findIndex(x=>x.id===id);snap(ix<0?'Contractor added':'Contractor edited',c.name);if(ix<0)state.contractors.push(c);else state.contractors[ix]=c;persist().then(()=>{renderAll();$('contractorForm').classList.remove('show');showToast('Contractor saved')})}
 function editContractor(id){let c=state.contractors.find(x=>x.id===id);$('cFormTitle').textContent='Edit contractor';$('contractorForm').classList.add('show');$('cId').value=id;$('cName').value=c.name;$('cPhone').value=c.phone||'';$('cSkill').value=c.skill||'';$('cNotes').value=c.notes||''}
@@ -747,7 +844,26 @@ function openDocSheet(title,docHtml,shareText=''){
 }
 function closeDocSheet(){$('docSheet').classList.remove('show')}
 function triggerDirectPrint(){
- window.print();
+ const mount=$('printMount');
+ if(!mount||!mount.innerHTML.trim()){showToast('Nothing to print yet');return}
+ mount.classList.remove('hidden');
+ setTimeout(()=>{
+  window.print();
+ },120);
+}
+window.addEventListener('afterprint',()=>{
+ const mount=$('printMount');
+ if(mount)mount.classList.add('hidden');
+});
+function downloadStandaloneDoc(){
+ const title=$('docSheetTitle')?.textContent||'Majuri-Pro-Document';
+ const bodyHtml=$('docSheetBody')?.innerHTML||'';
+ if(!bodyHtml)return;
+ const docCss=`body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#141e30;padding:24px;max-width:820px;margin:auto;line-height:1.45}.exec-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:2.5px solid #182c54;padding-bottom:14px;margin-bottom:16px}.exec-badge{display:inline-block;padding:4px 10px;border-radius:6px;background:#182c54;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase}.exec-title{font-size:21px;font-weight:850;margin:6px 0 2px}.exec-meta{font-size:12px;color:#4e5d78;line-height:1.5}.exec-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;margin:14px 0 18px}.exec-kpi{background:#f4f7fc;border:1px solid #dce3f0;border-radius:10px;padding:10px 12px}.exec-kpi small{display:block;font-size:10px;font-weight:750;text-transform:uppercase;color:#5a6982}.exec-kpi b{display:block;font-size:15px;font-weight:850;margin-top:2px}.exec-sec-title{font-size:13px;font-weight:800;text-transform:uppercase;color:#182c54;margin:18px 0 7px;border-left:3.5px solid #3157d5;padding-left:8px}.exec-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px}.exec-table th{background:#182c54;color:#fff;padding:8px 9px;text-align:left;border:1px solid #182c54}.exec-table td{padding:8px 9px;border:1px solid #dde3ee}.exec-table tr:nth-child(even) td{background:#f8fafd}.exec-table .num{text-align:right;white-space:nowrap}.exec-words{background:#eef3ff;border:1px solid #cfdcff;border-radius:10px;padding:10px 13px;font-size:12px;color:#1c3263;margin:12px 0}.exec-voucher{border:2px solid #182c54;border-radius:14px;padding:18px}.exec-signs{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:34px}.exec-sign-box{border-top:1px dashed #7c8aa3;padding-top:6px;font-size:11.5px;color:#4e5d78}@media print{.no-p{display:none!important}}`;
+ const fullHtml=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>${docCss}</style></head><body><div class="no-p" style="margin-bottom:16px;padding:10px 14px;background:#eef3ff;border-radius:10px;display:flex;justify-content:space-between;align-items:center"><span>Ready to save as PDF</span><button onclick="window.print()" style="background:#3157d5;color:#fff;border:0;padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer">Print / Save PDF</button></div>${bodyHtml}</body></html>`;
+ const safeName=title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'majuri-document';
+ download(fullHtml,`${safeName}-${today()}.html`,'text/html;charset=utf-8');
+ showToast('Document downloaded — open & tap Print → Save as PDF');
 }
 async function shareDocSummary(){
  if(navigator.share){
@@ -987,4 +1103,23 @@ window.addEventListener('online',()=>{if(cloudUser){setCloudStatus('Connection r
 
 
 
+
+<div id="photoLightbox" onclick="this.classList.remove('show')"><img id="lightboxImg" src="" alt="Full preview"></div>
+<div id="docSheet" class="sheet-backdrop" onclick="if(event.target===this)closeDocSheet()">
+ <div class="sheet-panel">
+  <div class="sheet-handle"></div>
+  <div class="row between">
+   <h3 id="docSheetTitle" style="margin:0">Document preview</h3>
+   <button class="secondary small" onclick="closeDocSheet()">✕ Close</button>
+  </div>
+  <div class="actions" style="margin-top:10px">
+   <button onclick="triggerDirectPrint()">🖨 Print / Save PDF</button>
+   <button class="secondary" onclick="downloadStandaloneDoc()">⬇ Download HTML / Print File</button>
+   <button class="secondary" onclick="shareDocSummary()">📤 Share Summary</button>
+  </div>
+  <p class="hint" style="margin:8px 0 4px">Tip: On mobile, tap <b>Print / Save PDF</b> and select <b>Save as PDF</b> as your printer.</p>
+  <div id="docSheetBody"></div>
+ </div>
+</div>
+<div id="printMount" class="hidden"></div>
 </body></html>
