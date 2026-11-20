@@ -238,10 +238,9 @@ body.authenticated #loginPanel{display:none}
 <div id="photoLightbox" onclick="this.classList.remove('show')"><img id="lightboxImg" src="" alt="Full preview"></div>
 <div id="appToast" role="status"></div>
 
-<!-- Clean ES Module Cloud Adapter (replaces Base64 inline string) -->
 <script type="module">
 import { initializeApp, getApp, getApps } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, runTransaction, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -288,7 +287,24 @@ function cloudSafeState(input) {
 
 window.majuriCloudApi = {
   async loginWithGoogle() {
-    const result = await signInWithPopup(auth, provider);
+    if (location.protocol === 'file:') {
+      throw new Error('Cannot sign in when opened as a local file (file://). Open via https://tester2021test.github.io/majuritest/.');
+    }
+    try {
+      const result = await signInWithPopup(auth, provider);
+      return assertAllowed(result.user);
+    } catch (err) {
+      if (err?.code === 'auth/popup-blocked' || err?.code === 'auth/operation-not-supported-in-this-environment') {
+        await signInWithRedirect(auth, provider);
+        return null;
+      }
+      await signOut(auth).catch(() => {});
+      throw err;
+    }
+  },
+  async checkRedirect() {
+    const result = await getRedirectResult(auth);
+    if (!result?.user) return null;
     try { return assertAllowed(result.user); }
     catch (err) { await signOut(auth); throw err; }
   },
@@ -339,7 +355,6 @@ async function persist(){if(cloudUser&&!suppressCloudSync){cloudDirty=true;local
 function setCloudStatus(s){let el=$('cloudStatus');if(el)el.textContent=s}
 function scheduleCloudSync(){clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>syncCloud(),0)}
 
-// Bug Fix #1: Preserve local Base64 photos when merging remote cloud records
 function mergeCloudStates(remote,local,localWins=false){
  const merged={...remote,...local,project:localWins?{...(remote.project||{}),...(local.project||{})}:{...(local.project||{}),...(remote.project||{})}};
  for(const key of ['works','contractors','payments','expenses','clientReceipts']){
@@ -438,7 +453,6 @@ function renderDashboard(){let t=total(),done=state.works.filter(w=>w.status==='
 
 function fillSelects(){const allRooms=Array.from(new Set([...state.rooms,...state.works.map(w=>w.room).filter(Boolean)]));let curFilter=$('roomFilter')?.value||'';let rooms=allRooms.map(x=>`<option>${esc(x)}</option>`).join(''),types=state.types.map(x=>`<option>${esc(x)}</option>`).join(''),cs='<option value="">Unassigned</option>'+state.contractors.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');$('fRoom').innerHTML=state.rooms.map(x=>`<option>${esc(x)}</option>`).join('');$('roomFilter').innerHTML='<option value="">All rooms</option>'+rooms;$('roomFilter').value=curFilter;$('fType').innerHTML=types;$('fContractor').innerHTML=cs;$('payContractor').innerHTML=cs;$('payFilterContractor').innerHTML='<option value="">All contractors</option>'+state.contractors.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}
 
-// Bug Fix #3a + UI Upgrade #3: Include archived rooms + live search bar
 function renderRooms(){
  fillSelects();
  const allRooms=Array.from(new Set([...state.rooms,...state.works.map(w=>w.room).filter(Boolean)]));
@@ -450,7 +464,6 @@ function renderRooms(){
 }
 function selectRoom(r){$('roomFilter').value=r;renderRooms();$('roomWorkList').scrollIntoView({behavior:'smooth'})}
 
-// UI Upgrade #3: One-tap status cycling on work cards
 async function cycleWorkStatus(id){
  const order=['Planned','In progress','Completed'],w=state.works.find(x=>x.id===id);if(!w)return;
  const next=order[(order.indexOf(w.status||'Planned')+1)%order.length];
@@ -484,7 +497,6 @@ function newContractor(){$('contractorForm').classList.remove('hidden');['cId','
 function saveContractor(){let id=$('cId').value||uid(),c={id,name:$('cName').value.trim(),phone:$('cPhone').value,skill:$('cSkill').value,notes:$('cNotes').value};if(!c.name){showToast('Enter contractor name');return}let ix=state.contractors.findIndex(x=>x.id===id);snap(ix<0?'Contractor added':'Contractor edited',c.name);if(ix<0)state.contractors.push(c);else state.contractors[ix]=c;persist().then(()=>{renderAll();$('contractorForm').classList.add('hidden');showToast('Contractor saved')})}
 function editContractor(id){let c=state.contractors.find(x=>x.id===id);$('contractorForm').classList.remove('hidden');$('cId').value=id;$('cName').value=c.name;$('cPhone').value=c.phone||'';$('cSkill').value=c.skill||'';$('cNotes').value=c.notes||''}
 
-// Bug Fix #3b: Safe contractor deletion
 async function removeContractor(id){
  const c=state.contractors.find(x=>x.id===id);if(!c)return;
  const linkedWorks=state.works.filter(w=>w.contractorId===id).length,linkedPays=state.payments.filter(p=>p.contractorId===id).length;
@@ -513,7 +525,6 @@ async function removeRoom(i){let room=state.rooms[i];if(!await confirmAction('Re
 async function removeType(i){let type=state.types[i];if(!await confirmAction('Remove work type?',`Remove “${type}”? Existing work records are retained.`))return;state.types.splice(i,1);renderAll();await persist();showToast('Work type removed')}
 function saveRates(){document.querySelectorAll('[data-rate]').forEach(x=>{if(x.value==='')delete state.rates[x.dataset.rate];else state.rates[x.dataset.rate]=+x.value});snap('Rate master updated','Default rates');persist().then(()=>showToast('Rates saved'))}
 
-// UI Upgrade #1: Inline expense editor replacing 8 prompt() popups
 function resetExpense(){$('expId').value='';$('expFormTitle').textContent='Project expenses & purchases';$('expDate').value=today();$('expCategory').value='Material - Other';$('expAmount').value='';$('expPaidAmount').value='';$('expVendor').value='';$('expMode').value='Cash';$('expBillRef').value='';$('expDesc').value='';$('expNotes').value=''}
 function saveExpense(){
  const id=$('expId').value||uid(),amount=+$('expAmount').value||0,paidNow=$('expPaidAmount').value===''?amount:(+$('expPaidAmount').value||0);
@@ -546,7 +557,6 @@ function renderAnalytics(){
  const allRooms=Array.from(new Set([...state.rooms,...state.works.map(w=>w.room).filter(Boolean)]));
  let rooms=allRooms.map(r=>({name:r,value:state.works.filter(w=>w.room===r).reduce((a,w)=>a+workAmount(w),0)})).filter(x=>x.value>0).sort((a,b)=>b.value-a.value),mr=Math.max(1,...rooms.map(x=>x.value));$('analyticsRoomChart').innerHTML=rooms.map(x=>`<div class="item"><div class="row between"><b>${esc(x.name)}</b><b>${money(x.value)}</b></div><div class="chartbar"><span style="width:${x.value/mr*100}%"></span></div></div>`).join('')||'<div class="empty">Add measured work to see room-wise cost.</div>';
 
- // Bug Fix #2: Accurately show payable vs. advance vs. settled per contractor
  $('contractorAnalytics').innerHTML=state.contractors.map(c=>{
   const earned=state.works.filter(w=>w.contractorId===c.id&&w.status==='Completed').reduce((a,w)=>a+workAmount(w),0);
   const recorded=state.works.filter(w=>w.contractorId===c.id).reduce((a,w)=>a+workAmount(w),0);
@@ -577,7 +587,6 @@ async function importJSON(e){let f=e.target.files[0];if(!f)return;try{let o=JSON
 function renderHistory(){$('historyList').innerHTML=state.history.slice(0,100).map(h=>`<div class="item"><b>${esc(h.action)}</b><div>${esc(h.detail)}</div><div class="hint">${new Date(h.date).toLocaleString()}</div></div>`).join('')||'<div class="empty">No revisions yet.</div>'}
 async function clearAll(){if(!await confirmAction('Delete all project data?','This permanently clears rooms, work, contractors, payments, expenses and photos on this device. Export a backup first.','Delete everything'))return;state={...state,project:{name:'My Interior Project'},works:[],contractors:[],payments:[],expenses:[],clientReceipts:[],budget:0,history:[]};renderAll();await persist();showToast('All local project data cleared')}
 
-// UI Upgrade #2: Photo Lightbox delegation
 document.addEventListener('click',e=>{
  if(e.target.matches('.photo-grid img, img.thumb')){
   $('lightboxImg').src=e.target.src;
@@ -594,13 +603,21 @@ async function performGoogleLogin(){
  const btn=$('googleLoginBtn'),msg=$('loginMessage');
  btn.disabled=true;btn.innerHTML='<span class="google-g">G</span> Connecting to Google…';msg.classList.remove('error');msg.textContent='Opening Google sign-in…';
  try{
-  if(!cloudApi)throw new Error('Firebase is still initialising. Wait a moment, then retry.');
+  if(!cloudApi)throw new Error('Firebase SDK is still loading. Wait a moment and try again.');
   const user=await cloudApi.loginWithGoogle();
   if(user)await activateUser(user);
  }catch(e){
+  console.error('Majuri Pro sign-in error:',e);
   const code=e?.code?` (${e.code})`:'';
-  const hints={'auth/network-request-failed':'Network error. Check internet access and try again.','auth/popup-blocked':'Browser blocked the sign-in popup. Allow popups for this site.','auth/popup-closed-by-user':'Sign-in window closed before completion.'};
-  msg.textContent=(hints[e?.code]||e?.message||'Google sign-in could not start.')+code;
+  const hints={
+   'auth/unauthorized-domain':`Domain "${location.hostname||'local file'}" is not authorized. Add tester2021test.github.io in Firebase Console → Authentication → Settings → Authorized domains.`,
+   'auth/operation-not-allowed':'Google sign-in is disabled in Firebase Console → Authentication → Sign-in method.',
+   'auth/network-request-failed':'Network error. Check internet access and try again.',
+   'auth/popup-blocked':'Browser blocked the popup. Allow popups for this site and try again.',
+   'auth/popup-closed-by-user':'Sign-in window was closed before completion.',
+   'auth/cancelled-popup-request':'Another sign-in window is already open.'
+  };
+  msg.textContent=(hints[e?.code]||e?.message||'Google sign-in failed.')+code;
   msg.classList.add('error');
  }finally{btn.disabled=false;btn.innerHTML='<span class="google-g" aria-hidden="true">G</span> Continue with Google'}
 }
@@ -610,6 +627,7 @@ function initCloudBridge(){
  cloudApi=window.majuriCloudApi;if(!cloudApi)return;
  $('syncNowBtn').onclick=()=>{if(cloudDirty)syncCloud();else reloadCloud()};
  $('logoutBtn').onclick=async()=>{if(cloudDirty&&!await confirmAction('Sign out?','Some changes have not synced yet. Sign out anyway?','Sign out'))return;await cloudApi.logout();cloudUser=null;document.body.classList.remove('authenticated');setCloudStatus('Signed out');$('loginMessage').textContent='Signed out.'};
+ cloudApi.checkRedirect().then(u=>{if(u&&!cloudUser)activateUser(u)}).catch(e=>{$('loginMessage').textContent=e.message;$('loginMessage').classList.add('error')});
  cloudApi.watchLogin(async user=>{if(user&&!cloudUser){try{await activateUser(user)}catch(e){$('loginMessage').textContent=e.message||'Could not load account data';$('loginMessage').classList.add('error')}}});
 }
 if(window.majuriCloudApi)initCloudBridge();else window.addEventListener('majuri-cloud-ready',initCloudBridge);
