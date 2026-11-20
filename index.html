@@ -825,11 +825,7 @@ function printDocument(){
  const docT=$('docType')?.value||'Document',cid=$('docContractor')?.value||'';
  const cObj=cid?state.contractors.find(c=>c.id===cid):null;
  const docHtml=buildDocumentHtml();
- const shareTxt=`*${docT}* — ${state.project.name}
-${cObj?'Contractor: '+cObj.name+'
-':''}Date: ${$('docDate').value}
-Total Work: ${money(total())}
-Generated via Majuri Pro`;
+ const shareTxt=[`*${docT}* — ${state.project.name}`,cObj?`Contractor: ${cObj.name}`:'',`Date: ${$('docDate').value}`,`Total Work: ${money(total())}`,'Generated via Majuri Pro'].filter(Boolean).join('\n');
  openDocSheet(`${docT} · Print / Save PDF`,docHtml,shareTxt);
 }
 
@@ -838,11 +834,7 @@ function printContractorStatement(cid){
  const docHtml=buildDocumentHtml(cid,'Contractor Statement');
  const earned=state.works.filter(w=>w.contractorId===cid&&w.status==='Completed').reduce((a,w)=>a+workAmount(w),0);
  const settled=state.payments.filter(p=>p.contractorId===cid).reduce((a,p)=>a+paymentNet(p),0);
- const shareTxt=`*Contractor Statement: ${c.name}*
-Project: ${state.project.name}
-Completed Work: ${money(earned)}
-Paid/Settled: ${money(settled)}
-Balance: ${money(earned-settled)}`;
+ const shareTxt=[`*Contractor Statement: ${c.name}*`,`Project: ${state.project.name}`,`Completed Work: ${money(earned)}`,`Paid/Settled: ${money(settled)}`,`Balance: ${money(earned-settled)}`].join('\n');
  openDocSheet(`${c.name} — Statement`,docHtml,shareTxt);
 }
 
@@ -872,11 +864,7 @@ function printReceipt(){
    <div class="exec-sign-box" style="text-align:right">Paid By (${esc(state.project.customer||'Owner')})</div>
   </div>
  </div>`;
- const shareTxt=`*Payment Receipt (${p.date})*
-Paid to: ${c?.name||'Contractor'}
-Amount: *${money(p.amount)}* (${p.mode})
-For: ${p.desc||p.type}
-Ref: ${p.ref||'N/A'}`;
+ const shareTxt=[`*Payment Receipt (${p.date})*`,`Paid to: ${c?.name||'Contractor'}`,`Amount: *${money(p.amount)}* (${p.mode})`,`For: ${p.desc||p.type}`,`Ref: ${p.ref||'N/A'}`].join('\n');
  openDocSheet('Payment Voucher · Print / Save PDF',voucherHtml,shareTxt);
 }
 
@@ -917,10 +905,7 @@ function printFinancialReport(){
   ${state.expenses.map(e=>`<tr><td>${esc(e.date)}</td><td>${esc(e.category)}</td><td><b>${esc(e.vendor||'—')}</b> · ${esc(e.desc)}</td><td class="num">${money(e.amount)}</td><td class="num">${money(e.paidAmount??e.amount)}</td><td class="num">${money(Math.max(0,(+e.amount||0)-(+((e.paidAmount??e.amount))||0)))}</td></tr>`).join('')||'<tr><td colspan="6">No expenses</td></tr>'}
   </tbody></table>
  </div>`;
- const shareTxt=`*Project Account Statement: ${p.name}*
-Total Cost: ${money(cost)}
-Cash Spent: ${money(cash)}
-Payable: ${money(contractorDue()+expenseDue())}`;
+ const shareTxt=[`*Project Account Statement: ${p.name}*`,`Total Cost: ${money(cost)}`,`Cash Spent: ${money(cash)}`,`Payable: ${money(contractorDue()+expenseDue())}`].join('\n');
  openDocSheet('Complete Account Statement · PDF',html,shareTxt);
 }
 
@@ -938,67 +923,11 @@ function printExpenseLedger(){
   </tbody><tfoot><tr><th colspan="4" style="text-align:right">Totals</th><th class="num">${money(tot)}</th><th class="num">${money(pd)}</th><th class="num">${money(due)}</th></tr></tfoot></table>
   <div class="exec-words"><b>Total Expense Value in Words:</b> ${esc(amountInWordsINR(tot))}</div>
  </div>`;
- openDocSheet('Material & Expense Ledger · PDF',html,`*Material & Expense Ledger*
-Total: ${money(tot)} | Paid: ${money(pd)} | Unpaid: ${money(due)}`);
+ openDocSheet('Material & Expense Ledger · PDF',html,[`*Material & Expense Ledger*`,`Total: ${money(tot)} | Paid: ${money(pd)} | Unpaid: ${money(due)}`].join('\n'));
 }
 
 function printHtml(content){openDocSheet('Document Preview',content)}
-function legacyPrintHtml(content){let w=window.open('','_blank');if(!w){alert('Allow pop-ups to print or save PDF.');return}w.document.write(`<html><head><title>Majuri Pro Document</title><style>body{font:14px Arial;padding:30px;color:#111}table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #ddd;padding:8px;text-align:left}h1{font-size:23px}
-/* V2.3 graphical refresh */
-body{background:radial-gradient(ellipse at 12% 0%,color-mix(in srgb,var(--accent) 10%,var(--bg)),transparent 36%),var(--bg)}
-header{background:linear-gradient(115deg,#172b55,#405cf5 68%,#7855d9);color:#fff;border:0;padding:17px 17px;box-shadow:0 8px 24px #3048a52b}
-header small{color:#e1e8ff}header .pill{background:#ffffff24;color:#fff;border:1px solid #ffffff30}
-header .secondary{background:#ffffff20;color:#fff;border:1px solid #ffffff35}
-.card{border-radius:21px;padding:16px;border:1px solid color-mix(in srgb,var(--line) 78%,transparent);box-shadow:0 8px 26px #263c6810}
-.card h3{font-size:16px;letter-spacing:-.2px}
-.stat{position:relative;overflow:hidden;border:1px solid color-mix(in srgb,var(--line) 70%,transparent);background:linear-gradient(145deg,var(--card),color-mix(in srgb,var(--soft) 48%,var(--card)));padding:14px;border-radius:17px}
-.stat:after{content:'';position:absolute;width:54px;height:54px;border-radius:50%;right:-17px;top:-17px;background:color-mix(in srgb,var(--accent) 10%,transparent)}
-.stat .big{font-size:clamp(18px,4.5vw,25px);position:relative;z-index:1}
-.page> .row:first-child{margin:6px 2px 14px}
-h2{font-size:20px;letter-spacing:-.5px}
-button{transition:transform .12s ease,filter .12s ease;box-shadow:0 3px 10px #3048a51a}
-button:active{transform:scale(.97);filter:brightness(.96)}
-.secondary{box-shadow:none;border:1px solid color-mix(in srgb,var(--accent) 10%,var(--line))}
-.bottom{background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
-.bottom button{font-size:10px;font-weight:650}.bottom button.active{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 14%,transparent)}
-.fab{width:60px;height:60px;background:linear-gradient(145deg,#4b68ff,#6547dc);box-shadow:0 10px 25px #405cf555}
-.bar,.chartbar{background:color-mix(in srgb,var(--line) 72%,var(--card))}
-.bar>span{background:linear-gradient(90deg,var(--cyan),var(--good))}
-.chartbar span{background:linear-gradient(90deg,var(--accent),var(--purple))}
-.pill{font-weight:700;letter-spacing:.25px}
-.item{padding:13px 2px}
-.item .danger{box-shadow:none}
-input,select,textarea{border-radius:13px}
-.notice{border:1px solid color-mix(in srgb,var(--accent) 14%,var(--line));background:linear-gradient(120deg,var(--soft),var(--card))}
-.room-card{border-top:3px solid var(--cyan)}
-/* In-app confirmation and feedback */
-#actionOverlay{position:fixed;inset:0;z-index:100;background:#10182b99;display:none;align-items:center;justify-content:center;padding:22px;backdrop-filter:blur(5px)}
-#actionOverlay.show{display:flex}
-.action-dialog{width:min(100%,360px);background:var(--card);color:var(--ink);border-radius:22px;padding:22px;box-shadow:0 22px 70px #0005}
-.action-dialog .symbol{width:46px;height:46px;border-radius:15px;background:color-mix(in srgb,var(--bad) 12%,var(--card));display:grid;place-items:center;font-size:23px;margin-bottom:12px}
-.action-dialog p{color:var(--muted);font-size:14px;line-height:1.5}
-#appToast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,18px);opacity:0;pointer-events:none;z-index:110;background:#18243b;color:#fff;border-radius:14px;padding:12px 16px;font-size:13px;box-shadow:0 8px 25px #0003;transition:.2s;max-width:90%;text-align:center}
-#appToast.show{opacity:1;transform:translate(-50%,0)}
-@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-</style></head><body>${content}<footer style="margin-top:36px;padding-top:12px;border-top:1px solid #ddd;text-align:center;color:#667085;font-size:11px;letter-spacing:.4px">Created &amp; Crafted by <strong>Vivek Narkhede</strong> · Majuri Pro</footer><script>window.onload=()=>window.print()<\/script><div id="actionOverlay" role="dialog" aria-modal="true" aria-labelledby="actionTitle"><div class="action-dialog"><div class="symbol">!</div><h2 id="actionTitle">Confirm action</h2><p id="actionMessage">Are you sure?</p><div class="actions"><button class="danger" id="actionConfirm">Delete</button><button class="secondary" id="actionCancel">Cancel</button></div></div></div><div id="photoLightbox" onclick="this.classList.remove('show')"><img id="lightboxImg" src="" alt="Full preview"></div><div id="appToast" role="status"></div>
 
-
-<div id="docSheet" class="sheet-backdrop" onclick="if(event.target===this)closeDocSheet()">
- <div class="sheet-panel">
-  <div class="sheet-handle"></div>
-  <div class="row between">
-   <h3 id="docSheetTitle" style="margin:0">Document preview</h3>
-   <button class="secondary small" onclick="closeDocSheet()">✕ Close</button>
-  </div>
-  <div class="actions" style="margin-top:10px">
-   <button onclick="triggerDirectPrint()">🖨 Print / Save PDF</button>
-   <button class="secondary" onclick="shareDocSummary()">📤 Share / Copy Summary</button>
-  </div>
-  <div id="docSheetBody"></div>
- </div>
-</div>
-<div id="printMount" class="hidden"></div>
-</body></html>`);w.document.close()}
 function csv(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}function download(data,name,type){let a=document.createElement('a'),u=URL.createObjectURL(new Blob([data],{type}));a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500)}
 function exportCSV(){let rows=[['Project','Room','Type','Item','Measurement rows','Area sq ft','Qty','Rate','Amount','Contractor','Status','Notes']];state.works.forEach(w=>rows.push([state.project.name,w.room,w.type,w.name,(w.measurements||[]).map(m=>`${m.width}${m.widthUnit}x${m.height}${m.heightUnit}`).join('; '),calcArea(w),w.qty,w.rate,workAmount(w),state.contractors.find(c=>c.id===w.contractorId)?.name,w.status,w.notes]));download('\ufeff'+rows.map(r=>r.map(csv).join(',')).join('\r\n'),'majuri-pro-work.csv','text/csv;charset=utf-8')}
 function exportPaymentsCSV(){let rows=[['Date','Type','Contractor','Amount','Mode','Reference','Description','Notes']];state.payments.forEach(p=>rows.push([p.date,p.type,state.contractors.find(c=>c.id===p.contractorId)?.name,p.amount,p.mode,p.ref,p.desc,p.notes]));download('\ufeff'+rows.map(r=>r.map(csv).join(',')).join('\r\n'),'majuri-pro-payments.csv','text/csv;charset=utf-8')}
